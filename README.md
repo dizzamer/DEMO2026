@@ -13,45 +13,48 @@
     10.0.0.0/8  
     172.16.0.0/12  
     192.168.0.0/16  
- ### ● Локальная сеть в сторону HQ-SRV(VLAN100) должна вмещать не более 64 адресов  
-    маска /26  255.255.255.192
- ### ● Локальная сеть в сторону HQ-CLI(VLAN200) должна вмещать не более 16 адресов  
-    маска /28  255.255.255.240
- ### ● Локальная сеть в сторону BR-SRV должна вмещать не более 32 адресов  
-    маска /27  255.255.255.224
- ### ● Локальная сеть для управления(VLAN999) должна вмещать не более 8 адресов  
-    маска /29  255.255.255.248
-### ● Сведения об адресах занесите в отчёт, в качестве примера используйте Таблицу 3
-     
+ ### ● Локальная сеть в сторону HQ-SRV(VLAN100) должна вмещать не более 32 адресов  
+    маска /27  255.255.255.224 - 32 адреса (30 используемых)
+    192.168.0.0/27	192.168.0.1 – 192.168.0.30	192.168.0.31 - Broadcast  
+ ### ● Локальная сеть в сторону HQ-CLI(VLAN200) должна вмещать не менее 16 адресов  
+    маска /27  255.255.255.240 - 32 адреса (30 используемых)
+    192.168.0.32/28	192.168.0.33 – 192.168.0.62	192.168.0.63 - Broadcast  
+ ### ● Локальная сеть в сторону BR-SRV должна вмещать не более 8 адресов  
+    маска /29  255.255.255.248 - 8 адресов (6 используемых)
+    192.168.0.64/29	192.168.0.65 – 192.168.0.70	192.168.0.71 - Broadcast  
+ ### ● Локальная сеть для управления(VLAN999) должна вмещать не более 16 адресов  
+    маска /28  255.255.255.240 - 16 адресов (14 используемых)
+    192.168.0.72/28	192.168.0.73 – 192.168.0.86	192.168.0.87 - Broadcast  
+### ● Сведения об адресах занесите в отчёт, в качестве примера используйте Таблицу 2
  | Имя Устройства   | IPv4                     |  Интерфейс  | NIC       | Шлюз         | 
  | ---------        | ---------                | ---------   | --------- | ---------    |
  | ISP              | NAT (inet)               | ens3        | Internet  |              |
- |                  | 172.16.4.14/28           | ens4        | ISP_HQ    |              |
- |                  | 172.16.5.14/28           | ens5        | ISP_BR    |              |
- | HQ-RTR           | 172.16.4.1/28            | te0         | ISP_HQ    | 172.16.4.14  |
- |                  | 192.168.0.81/29          | te1         | HQ_NET    |              |
- |                  | 192.168.0.62/26          | te1.100     |           |              |
- |                  | 192.168.1.78/28          | te1.200     |           |              |
+ |                  | 172.16.1.14/28           | ens4        | ISP_HQ    |              |
+ |                  | 172.16.2.14/28           | ens5        | ISP_BR    |              |
+ | HQ-RTR           | 172.16.4.1/28            | te0         | ISP_HQ    | 172.16.1.14  |
+ |                  | 192.168.0.73/28          | te1.999     | HQ_NET    |              |
+ |                  | 192.168.0.1/27           | te1.100     | -         |              |
+ |                  | 192.168.0.33/28          | te1.200     | -         |              |
  |                  | 172.16.0.1/30            | GRE         | TUN       |              |
- | HQ-SW            | 192.168.0.82/29          | ens3        | HQ_NET    |              |
+ | HQ-SW            | 192.168.0.74/28          | ens3        | HQ_NET    |              |
  |                  | -                        | ens4        | SRV_NET   |              |
  |                  | -                        | ens5        | CLI_NET   |              |
- | HQ-SRV           | 192.168.0.2/26           | ens3        | SRV_NET   | 192.168.0.62 |
- | HQ-CLI           | 192.168.1.65/28(DHCP)    | ens3        | CLI_NET   | 192.168.1.78 |
- | BR-RTR           | 172.16.5.1/28            | te0         | ISP_BR    | 172.16.5.14  |
- |                  | 192.168.2.1/27           | te1         | BR_NET    |              |
+ | HQ-SRV           | 192.168.0.2/27           | ens3        | SRV_NET   | 192.168.0.1  |
+ | HQ-CLI           | 192.168.0.34/28(DHCP)    | ens3        | CLI_NET   | 192.168.0.33 |
+ | BR-RTR           | 172.16.2.1/28            | te0         | ISP_BR    | 172.16.2.14  |
+ |                  | 192.168.0.65/29          | te1         | BR_NET    |              |
  |                  | 172.16.0.2/30            | GRE         | TUN       |              |
- | BR-SRV           | 192.168.2.2/27           | ens3        | BR_NET    | 192.168.2.1  |
+ | BR-SRV           | 192.168.0.66/29          | ens3        | BR_NET    | 192.168.0.65 |
 
 ## 2. Настройка ISP
  ### ● Настройте адресацию на интерфейсах:  
     Интерфейс, подключенный к магистральному провайдеру, получает адрес по DHCP  
     o Настройте маршруты по умолчанию там, где это необходимо   
     Маршруты по умолчанию настраиваются на роутерах:  
-    HQ-RTR - ip route 0.0.0.0/0 172.16.4.14  
-    BR-RTR - ip route 0.0.0.0/0 172.16.5.14  
-    o Интерфейс, к которому подключен HQ-RTR, подключен к сети 172.16.4.0/28  
-    Настройка производится на EcoRouter:  
+    HQ-RTR - ip route 0.0.0.0/0 172.16.1.14  
+    BR-RTR - ip route 0.0.0.0/0 172.16.2.14  
+    o Интерфейс, к которому подключен HQ-RTR, подключен к сети 172.16.1.0/28  
+    Настройка производится на HQ-RTR(EcoRouter):  
     en  
     conf t  
     port te0  
@@ -62,12 +65,12 @@
     en  
     conf t  
     int ISP  
-    ip add 172.16.4.1/28  
+    ip add 172.16.1.1/28  
     connect port te0 service-instance toISP  
     end  
-    wr  mem  
-    o Интерфейс, к которому подключен BR-RTR, подключен к сети 172.16.5.0/28  
-    Настройка производится на EcoRouter:  
+    wr mem  
+    o Интерфейс, к которому подключен BR-RTR, подключен к сети 172.16.2.0/28  
+    Настройка производится на BR-RTR(EcoRouter):  
     en  
     conf t  
     port te0  
@@ -78,7 +81,7 @@
     en  
     conf t  
     int ISP  
-    ip add 172.16.5.1/28  
+    ip add 172.16.2.1/28  
     connect port te0 service-instance toISP  
     end  
     wr  mem  
@@ -87,29 +90,27 @@
     echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
     dnf install iptables-services –y   
     systemctl enable ––now iptables  
-    iptables –t nat –A POSTROUTING –s 172.16.4.0/28 –o ens3 –j MASQUERADE  
-    iptables –t nat –A POSTROUTING –s 172.16.5.0/28 –o ens3 –j MASQUERADE  
+    iptables –t nat –A POSTROUTING –s 172.16.1.0/28 –o ens3 –j MASQUERADE  
+    iptables –t nat –A POSTROUTING –s 172.16.2.0/28 –o ens3 –j MASQUERADE  
     iptables-save > /etc/sysconfig/iptables  
     systemctl restart iptables  
     nano /etc/sysconfig/iptables - не должно быть ничего лишнего.  
-    в случае если там есть то, что вы не добавляли - удалить  
+    в случае если там есть то, что вы не добавляли - удалить
     iptables –L –t nat - должны высветится в Chain POSTROUTING две настроенные подсети.  
 ## 3. Создание локальных учетных записей
- ### ● Создайте пользователя sshuser на серверах HQ-RTR | BR-RTR | HQ-CLI  
-    useradd -m -u 1010 sshuser  
+ ### ● Создайте пользователя sshuser на серверах HQ-SRV | BR-SRV  
+    useradd -m -u 2026 sshuser  
     o Пароль пользователя sshuser с паролем P@ssw0rd  
     echo "sshuser:P@ssw0rd" | sudo chpasswd  
-    o Идентификатор пользователя 1010  
+    o Идентификатор пользователя 2026  
     o Пользователь sshuser должен иметь возможность запускать sudo
     без дополнительной аутентификации.  
     usermod -aG wheel sshuser  
-    nano /etc/sudoers  
-    sshuser ALL=(ALL) NOPASSWD:ALL  
    ### ● Создайте пользователя net_admin на маршрутизаторах HQ-RTR и BR-RTR  
     Настройка производится на EcoRouter:  
     username net_admin  
-    o Пароль пользователя net_admin с паролем P@$$word  
-    password P@$$word  
+    o Пароль пользователя net_admin с паролем P@ssw0rd  
+    password P@ssw0rd   
     o При настройке на EcoRouter пользователь net_admin должен обладать максимальными привилегиями  
     role admin  
     o При настройке ОС на базе Linux, запускать sudo без дополнительной аутентификации  
@@ -118,13 +119,13 @@
     Настройка на HQ-RTR:  
     port te1  
     Service-instance toSW  
-    Encapsulation untagged  
+    Encapsulation dot1q 999  
     end  
     wr mem  
     en  
     conf t  
-    Int vl999
-    ip add 192.168.0.81/29  
+    Int te1.999
+    ip add 192.168.0.73/28  
     description toSW  
     connect port te1 service-instance toSW  
     end  
@@ -132,11 +133,9 @@
     Настройка на HQ-SW:  
     Перед настройкой линк ens3 в nmtui должен быть в состоянии - отключено
     Адресации так же не должно быть
-    ovs-vsctl add-br ovs0  
-    ovs-vsctl add-port ovs0 ens3  
-    ovs-vsctl set port ens3 vlan_mode=native-untagged tag=999 trunks=999,100,200  
-    ovs-vsctl add-port ovs0 ovs0-vlan999 tag=999 -- set interface ovs0-vlan999 type=internal  
-    ifconfig ovs0-vlan999 inet 192.168.0.82/29 up  
+    ovs-vsctl add-br hq-sw  
+    ovs-vsctl add-port hq-sw ens3 tag=999 trunks=999,100,200  
+    ifconfig ovs0-vlan999 inet 192.168.0.74/28 up  
  ### ● Сервер HQ-SRV должен находиться в ID VLAN 100  
     Настройка на HQ-RTR:  
     port te1  
@@ -151,13 +150,9 @@
     end  
     wr mem  
     Настройка на HQ-SW:  
-    Перед настройкой линк ens4 в nmtui должен быть в состоянии - отключено
-    Адресации так же не должно быть
-    Так как при настройке на HQ-SW бридж ovs0 уже создан, его создавать не нужно
-    ovs-vsctl add-port ovs0 ens4  
-    ovs-vsctl set port ens4 tag=100 trunks=100  
-    ovs-vsctl add-port ovs0 ovs0-vlan100 tag=100 -- set interface ovs0-vlan100 type=internal  
-    ifconfig ovs0-vlan100 inet up  
+    Адресации не должно быть
+    Так как при настройке на HQ-SW бридж hq-sw уже создан, его создавать не нужно
+    ovs-vsctl add-port hq-sw ens4 tag=100  
  ### ● Клиент HQ-CLI в ID VLAN 200  
     Настройка на HQ-RTR:  
     port te1  
@@ -172,23 +167,19 @@
     end  
     wr mem  
     Настройка на HQ-SW: 
-    Перед настройкой линк ens5 в nmtui должен быть в состоянии - отключено
-    Адресации так же не должно быть
-    Так как при настройке на HQ-SW бридж ovs0 уже создан, его создавать не нужно
-    ovs-vsctl add-port ovs0 ens5  
-    ovs-vsctl set port ens5 tag=200 trunks=200  
-    ovs-vsctl add-port ovs0 ovs0-vlan200 tag=200 -- set interface ovs0-vlan200 type=internal  
-    ifconfig ovs0-vlan200 inet up  
+    Адресации не должно быть
+    Так как при настройке на HQ-SW бридж hq-sw уже создан, его создавать не нужно
+    ovs-vsctl add-port hq-sw ens5 tag=200 
 **● Основные сведения о настройке коммутатора и выбора реализации разделения на VLAN занесите в отчёт**  
 ## 5. Настройка безопасного удаленного доступа на серверах HQ-SRV и BR-SRV:  
  ### ● Для подключения используйте порт 2024  
-     Перед настройкой выполните команду setenforce 0, далее переводим selinux в состояние  
-     disabled в файле /etc/selinux/config
+     Перед настройкой выполните команду setenforce 0, далее проверяем командой: getenforce   
+     должно быть состояние Permissive  
      dnf install openssh - если не установлен
      systemctl enable --now sshd
-     echo Port 2024 >> /etc/ssh/sshd_config
+     echo Port 2026 >> /etc/ssh/sshd_config
   ### ● Разрешите подключения только пользователю sshuser  
-      eccho AllowUsers sshuser >> nano /etc/ssh/sshd_config
+      echo AllowUsers sshuser >> nano /etc/ssh/sshd_config
  ### ● Ограничьте количество попыток входа до двух  
       echo MaxAuthTries 2 >> /etc/ssh/sshd_config
  ### ● Настройте баннер «Authorized access only»  
@@ -203,15 +194,15 @@
     Ip mtu 1476  
     ip ospf network broadcast  
     ip ospf mtu-ignore  
-    Ip tunnel 172.16.4.1 172.16.5.1 mode gre  
+    Ip tunnel 172.16.1.1 172.16.2.1 mode gre  
     end  
     wr mem  
     Conf t
     Router ospf 1
     Ospf router-id  172.16.0.1
     network 172.16.0.0 0.0.0.3 area 0
-    network 192.168.0.0 0.0.0.63 area 0
-    network 192.168.1.78 0.0.0.15 area 0
+    network 192.168.0.0 0.0.0.31 area 0
+    network 192.168.0.32 0.0.0.15 area 0
     passive-interface default
     no passive-interface tunnel.1
     Настройка на BR-RTR:
@@ -226,7 +217,7 @@
     Router ospf 1
     Ospf router-id 172.16.0.2
     Network 172.16.0.0 0.0.0.3 area 0
-    Network 192.168.2.0 0.0.0.31 area 0
+    Network 192.168.0.64 0.0.0.7 area 0
     Passive-interface default
     no passive-interface tunnel.1  
   o На выбор технологии GRE или IP in IP  
@@ -252,12 +243,12 @@
 ## 8. Настройка динамической трансляции адресов.  
  ### ● Настройте динамическую трансляцию адресов для обоих офисов.  
     Настройка производится на EcoRouter HQ-RTR: 
-    ip nat pool nat1 192.168.0.1-192.168.0.254  
+    ip nat pool nat1 192.168.0.0-192.168.0.31  
     ip nat source dynamic inside-to-outside pool nat1 overload interface ISP 
-    ip nat pool nat2 192.168.1.65-192.168.1.79  
+    ip nat pool nat2 192.168.0.32-192.168.0.63  
     ip nat source dynamic inside-to-outside pool nat2 overload interface ISP   
     Настройка производится на EcoRouter BR-RTR: 
-    ip nat pool nat3 192.168.2.2-192.168.2.31  
+    ip nat pool nat3 192.168.0.64-192.168.0.71  
     ip nat source dynamic inside-to-outside pool nat3 overload interface ISP 
 ### ● Все устройства в офисах должны иметь доступ к сети Интернет  
     Настройка производится на EcoRouter HQ-RTR:
@@ -266,7 +257,7 @@
     int ISP
     ip nat outside
     ex
-    int vl999
+    int te1.999
     ip nat inside
     ex
     int te1.100
@@ -284,14 +275,14 @@
     ip nat inside
     ex  
     Настройка производится на HQ-SRV:
-    В nmtui прописывеем шлюз - 192.168.0.62/26  
+    В nmtui прописывеем шлюз - 192.168.0.1 
     Настройка производится на BR-SRV:  
-    В nmtui прописывет шлюз - 192.168.2.1/27
+    В nmtui прописывет шлюз - 192.168.0.65
 ## 9. Настройка протокола динамической конфигурации хостов.  
   ● Настройте нужную подсеть  
   ### ● Для офиса HQ в качестве сервера DHCP выступает маршрутизатор HQ-RTR.  
     Настройка производится на EcoRouter HQ-RTR:
-    ip pool dhcpHQ 192.168.1.65-192.168.1.79
+    ip pool dhcpHQ 192.168.0.34-192.168.0.62
     en
     conf t
     dhcp-server 1
@@ -299,7 +290,7 @@
     domain-name au-team.irpo
     mask 255.255.255.240  
     dns 192.168.0.2    
-    gateway 192.168.1.78    
+    gateway 192.168.0.33    
     end  
     wr mem  
   ###  ● Клиентом является машина HQ-CLI.  
