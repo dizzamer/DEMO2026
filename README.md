@@ -404,7 +404,7 @@
 ## 2.	Сконфигурируйте файловое хранилище:  
  ### Настройка проивзодится на HQ-SRV:
   Перед тем как начать проверяем, что установлены следюущие пакеты
-  dnf isntall mdadm nfs-utils -y
+  dnf install mdadm nfs-utils -y
 ## •	При помощи трёх дополнительных дисков, размером 1Гб каждый, на HQ-SRV сконфигурируйте дисковый массив уровня 5  
     mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd     
  ![mdadmcreate](https://github.com/dizzamer/DEMO2025/blob/main/mdadm_create.png)    
@@ -420,18 +420,20 @@
      mkfs.ext4 /dev/md0  
    ![mkfs](https://github.com/dizzamer/DEMO2025/blob/main/mkfs.png)   
  ## •	Создаем точку монтирования и примонтируемся     
-    mkdir -p /raid5   
+    mkdir -p /raid   
     mount -a   
   ![mount](https://github.com/dizzamer/DEMO2025/blob/main/mount.png)   
- ### •	Настройте сервер сетевой файловой системы(nfs), в качестве папки общего доступа выберите /raid5/nfs, доступ для чтения и записи для всей сети в сторону HQ-CLI   
+ ## 3. Настройте сервер сетевой файловой системы(nfs) на HQ-SRV
+ ### Настройка проивзодится на HQ-SRV:
+  ## • в качестве папки общего доступа выберите /raid/nfs, доступ для чтения и записи для всей сети в сторону HQ-CLI   
   ## •	Создаем папку для NFS  
-    mkdir -p /raid5/nfs  
-    chmod 777 /raid5/nfs  
+    mkdir -p /raid/nfs  
+    chmod 777 /raid/nfs  
  ![mkdir_nfs](https://github.com/dizzamer/DEMO2025/blob/main/mkdir_nfs.png)  
  ## Настройка экспорта  
     Добавляем в /etc/exports:  
     nano /etc/exports  
-    /raid5/nfs 192.168.1.64/28(rw,sync,insecure,nohide,all_squash,no_subtree_check)
+    /raid5/nfs 192.168.0.32/28(rw,sync,insecure,nohide,all_squash,no_subtree_check)
 ![exports](https://github.com/dizzamer/DEMO2025/blob/main/etcexports.png)  
   ## Применяем изменения и перезагружаем службу
     exportfs -rav  
@@ -440,7 +442,7 @@
   ## •	На HQ-CLI настройте автомонтирование в папку /mnt/nfs  
       Добавляем в /etc/fstab:    
       nano /etc/fstab  
-      hq-srv:/raid5/nfs /mnt/nfs nfs defaults 0 0
+      hq-srv:/raid/nfs /mnt/nfs nfs defaults 0 0
   ![fstab_hqcli](https://github.com/dizzamer/DEMO2025/blob/main/fstab_hqcli.png)  
   ## Создаем точку монтирования и примонтируемся  
     mkdir -p /mnt/nfs  
@@ -449,18 +451,20 @@
   ## Проверка монтирования
       После этого при создании файла на клиенте, он должен появляться и на сервере
    •	Основные параметры сервера отметьте в отчёте  
-  ## 3.	Настройте службу сетевого времени на базе сервиса chrony  
-  •	В качестве сервера выступает HQ-RTR  
-  ### Настройка проивзодится на HQ-RTR:  
+  ## 4.	Настройте службу сетевого времени на базе сервиса chrony на маршрутизаторе ISP  
+  ### Настройка проивзодится на ISP:  
+  Вышестоящий сервер ntp на маршрутизаторе ISP - на выбор участника
+  Стратум сервера - 5
       en  
       conf t  
       ntp server 172.16.4.1   
       ntp timezone UTC+3  
       end  
       wr mem  
-•	На HQ-RTR настройте сервер chrony, выберите стратум 5  
-•	В качестве клиентов настройте HQ-SRV, HQ-CLI, BR-RTR, BR-SRV  
-## 4.	Сконфигурируйте ansible на сервере BR-SRV  
+  •	Стратум сервера - 5 
+  •	В качестве клиентов ntp настройте: HQ-SRV, HQ-CLI, BR-RTR, BR-SRV.   
+  
+## 5.	Сконфигурируйте ansible на сервере BR-SRV  
   ### Настройка подключения по ssh BR-RTR | HQ-RTR
      Настройка производится на HQ-RTR:  
      en  
@@ -538,55 +542,27 @@
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
     ansible -i /etc/ansible/inventory.ini all -m ping 
     В результате под каждым хостом должно быть написано "ping": "pong".  
-![inventory](https://github.com/dizzamer/DEMO2025/blob/main/ansubleping.png) 
-## 5.	Развертывание приложений в Docker на сервере BR-SRV. 
+![inventory](https://github.com/dizzamer/DEMO2025/blob/main/ansubleping.png)   
+
+## 6.	Развертывание приложений в Docker на сервере BR-SRV. 
     Установка необходимых пакетов:  
     dnf install docker-ce docker-ce-cli docker-compose -y  
     systemctl enable docker --now
     Добавляем текущего пользователя в группу докер, текущий пользователь - student   
     usermod -aG docker $USER  
 ### •	Создайте в домашней директории пользователя файл wiki.yml для приложения MediaWiki.  
-     •	Средствами docker compose должен создаваться стек контейнеров с приложением MediaWiki и базой данных.  
-     •	Используйте два сервиса  
-     •	Основной контейнер MediaWiki должен называться wiki и использовать образ mediawiki  
-     •	Файл LocalSettings.php с корректными настройками должен находиться в домашней папке пользователя и автоматически 
-      монтироваться в образ.  
-     •	Контейнер с базой данных должен называться mariadb и использовать образ mariadb.  
-     •	Он должен создавать базу с названием mediawiki, доступную по стандартному порту, пользователя wiki с паролем   
-     WikiP@ssw0rd должен иметь права доступа к этой базе данных  
-     •	MediaWiki должна быть доступна извне через порт 8080.  
-     Для того, чтобы MediaWiki была доступна извен через порт 8080, нужно в ports сначала указывать 8080  
-     Развертывание производится на сервере BR-SRV:   
-     touch /home/student/wiki.yml  
-     nano /home/student/wiki.yml  
-      services:
-      MediaWiki:
-        container_name: wiki
-        image: mediawiki
-        restart: always
-        ports: 
-          - 8080:80
-        links:
-          - database
-        volumes:
-          - images:/var/www/html/images
-          # - ./LocalSettings.php:/var/www/html/LocalSettings.php
-      database:
-        container_name: mariadb
-        image: mariadb
-        environment:
-          MYSQL_DATABASE: mediawiki
-          MYSQL_USER: wiki
-          MYSQL_PASSWORD: WikiP@ssw0rd
-          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-        volumes:
-          - dbvolume:/var/lib/mysql
-    volumes:
-      dbvolume:
-          external: true
-      images:
-      Перед поднятием контейнеров необходимо прописать:
-      docker volume create dbvolume
+     • Средствами docker должен создаваться стек контейнеров с веб
+     приложением и базой данных
+     • Используйте образы site_latestи mariadb_latestрасполагающиеся в
+     директории docker в образе Additional.iso
+     • Основной контейнер testapp должен называться tespapp
+     • Контейнер с базой данных должен называться db
+     • Импортируйте образы в docker, укажите в yaml файле параметры
+     подключения к СУБД, имя БД - testdb, пользователь testс паролем
+     P@ssw0rd, порт приложения 8080, при необходимости другие
+     параметры
+     • Приложение должно быть доступно для внешних подключений через
+     порт 8080
       Поднимаем стек контейнеров с помощью команды: 
       docker compose -f wiki.yml up -d  
  ![wikiyml](https://github.com/dizzamer/DEMO2025/blob/main/wikiyml.png)  
@@ -628,21 +604,13 @@
   ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/wikidemologin.png)  
   Должно получиться вот так:  
   ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/wikiuser.png)  
-## 6.	На маршрутизаторах сконфигурируйте статическую трансляцию портов  
-### •	Пробросьте порт 80 в порт 8080 на BR-SRV на маршрутизаторе BR-RTR, для обеспечения работы сервиса wiki  
-     Настройка производится на EcoRouter BR-RTR:  
-     ip nat destination static tcp 192.168.1.2 80 192.168.1.65 8080
-     ip nat destination static tcp 172.16.5.1 80 192.168.1.2 8080
-### •	Пробросьте порт 2024 в порт 2024 на HQ-SRV на маршрутизаторе HQ-RTR  
-     Настройка производится на EcoRouter HQ-RTR:  
-     ip nat destination static tcp 192.168.0.2 2024 192.168.1.65 2024  
-### •	Пробросьте порт 2024 в порт 2024 на BR-SRV на маршрутизаторе BR-RTR  
-     Настройка производится на EcoRouter BR-RTR:  
-     ip nat destination static tcp 192.168.1.2 2024 192.168.1.65 2024  
-## 7.	Запустите сервис moodle на сервере HQ-SRV:  
-### Подготовка  
- Выключаем selinux:  
- setenforce 0  
+  
+## 7.	Разверните веб приложениена сервере HQ-SRV:   
+### Подготовка   
+ Переводим selinux в состояние Permissive:  
+ setenforce 0    
+ Проверяем:  
+ getenforce  
  dnf install -y git httpd mariadb-server php php-cli php-common php-fpm php-gd php-intl php-json php-mbstring php-mysqlnd php-opcache php-pdo php-xml php-xmlrpc php-pecl-zip php-soap   
 ## •	Используйте веб-сервер apache  
     systemctl enable --now httpd  
@@ -660,18 +628,20 @@
     </VirtualHost>  
      Перезапускаем Apache:  
      systemctl restart httpd   
-## •	В качестве системы управления базами данных используйте mariadb  
+## •	В качестве системы управления базами данных используйте mariadb   
      systemctl enable --now mariadb  
      mysql_secure_installation  
-## •	Создайте базу данных moodledb  
+## •	Файлы веб приложения и дамп базы данных находятся в директории web образа Additional.iso  
      mysql -u root -p   
-     CREATE DATABASE moodledb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
-## •	Создайте пользователя moodle с паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных  
-     CREATE USER 'moodle'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
+     CREATE DATABASE moodledb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;   
+## •	Выполните импорт схемы и данных из файла dump.sql в базу данных webdb  
+
+## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
+     CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
      GRANT ALL PRIVILEGES ON moodledb.* TO 'moodle'@'localhost';   
      FLUSH PRIVILEGES;   
      EXIT;   
-## •	У пользователя admin в системе обучения задайте пароль P@ssw0rd  
+     
      Создаем директории для нашего moodle  
      mkdir /opt/moodle  
      mkdir /usr/moodle_data  
@@ -679,27 +649,41 @@
      cd /opt/moodle  
      git clone git://git.moodle.org/moodle.git  
      cd /opt/moodle/moodle  
-     cp config-dist.php config.php  
+     cp config-dist.php config.php 
+## •	Файлы index.php и директорию images скопируйте в каталог веб сервера apache  
+## •	В файле index.php укажите правильные учётные данные для подключения к БД  
+
+## •	Запустите веб сервер и убедитесь в работоспособности приложения  
+## •	Основные параметры отметьте в отчёте  
 •	На главной странице должен отражаться номер рабочего места в виде арабской цифры, других подписей делать не надо  
 •	Основные параметры отметьте в отчёте  
-## 8.	Настройте веб-сервер nginx как обратный прокси-сервер на HQ-RTR  
-  ### •	При обращении к HQ-RTR по доменному имени moodle.au-team.irpo клиента должно перенаправлять на HQ-SRV на стандартный порт, на сервис moodle  
+
+## 8.	На маршрутизаторах сконфигурируйте статическую трансляцию портов  
+### •	Пробросьте порт 80 в порт 8080 на BR-SRV на маршрутизаторе BR-RTR, для обеспечения работы сервиса wiki  
+     Настройка производится на EcoRouter BR-RTR:  
+     ip nat destination static tcp 192.168.1.2 80 192.168.1.65 8080
+     ip nat destination static tcp 172.16.5.1 80 192.168.1.2 8080
+### •	Пробросьте порт 2024 в порт 2024 на HQ-SRV на маршрутизаторе HQ-RTR  
      Настройка производится на EcoRouter HQ-RTR:  
+     ip nat destination static tcp 192.168.0.2 2024 192.168.1.65 2024  
+### •	Пробросьте порт 2024 в порт 2024 на BR-SRV на маршрутизаторе BR-RTR  
+     Настройка производится на EcoRouter BR-RTR:  
+     ip nat destination static tcp 192.168.1.2 2024 192.168.1.65 2024  
+## 9.	Настройте веб-сервер nginx как обратный прокси-сервер на ISP  
+  ### •	При обращении по доменному имени web.au-team.irpo у клиента должно открываться веб приложение на HQ-SRV  
+  ### • При обращении по доменному имени docker.au-team.irpo клиента
+должно открываться веб приложение testapp
+## 10.	На маршрутизаторе ISP настройте web-based аутентификацию:  
+  ### •	При обращении к сайту web.au-team.irpo клиенту должно быть предложено ввести аутентификационные данные
+         В качестве логина для аутентификации выберите WEBс паролем P@ssw0rd
+        • Выберите файл /etc/nginx/.htpasswd в качестве хранилища учётных записей
+        • При успешной аутентификации клиент должен перейти на веб сайт.
+      
+     Настройка производится на ISP:  
      en  
-     conf t  
-     filter-map policy ipv4 moodle 1  
-     match 80 172.16.4.1/28 192.168.0.2/26 dscp 0
-     set redirect hq-rtr.moodle.au-team.irpo  
-     end  
-     wr mem  
-     en  
-     conf t  
-     redirect-url SITEREDIRECT  
-     url hq-rtr.moodle.au-team.irpo  
-     end  
-     wr mem  
+  
 •	При обращении к HQ-RTR по доменному имени wiki.au-team.irpo клиента должно перенаправлять на BR-SRV на порт, на сервис mediwiki  
-## 9.	Удобным способом установите приложение Яндекс Браузер для организаций на HQ-CLI  
+## 11.	Удобным способом установите приложение Яндекс Браузер для организаций на HQ-CLI  
 •	Установку браузера отметьте в отчёте  
 
 # Модуль № 3:Эксплуатация объектов сетевой инфраструктуры    
