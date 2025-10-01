@@ -145,8 +145,7 @@
     en  
     conf t  
     Int te1.999  
-    ip add 192.168.0.73/28   
-    description toSW   
+    ip add 192.168.0.73/28      
     connect port te1 service-instance toSW   
     end  
     wr mem  
