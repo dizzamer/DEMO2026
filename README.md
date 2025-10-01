@@ -123,6 +123,7 @@
     port te1  
     Service-instance toSW  
     Encapsulation dot1q 999  
+    rewrite pop 1
     end  
     wr mem  
     en  
