@@ -209,7 +209,7 @@
     Ip mtu 1476  
     ip ospf mtu-ignore  
     ip ospf network broadcast  
-    Ip tunnel 172.16.5.1 172.16.4.1 mode gre  
+    Ip tunnel 172.16.2.1 172.16.1.1 mode gre  
     end    
     ПРОВЕРЯЕМ ТУННЕЛЬ ПИНГОМ ОТ РОТУЕРА К РОУТЕРУ, БЕЗ ЭТОГО НЕ ПЕРЕХОДИМ К НАСТРОЙКЕ OSPF!!!
     Проверка на HQ-RTR: 
