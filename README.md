@@ -177,32 +177,51 @@
     Так как при настройке на HQ-SW бридж hq-sw уже создан, его создавать не нужно
     ovs-vsctl add-port hq-sw ens5 tag=200 
 **● Сведения о настройке коммутации внесите в отчёт**  
-## 5. Настройка безопасного удаленного доступа на серверах HQ-SRV и BR-SRV:  
- ### ● Для подключения используйте порт 2024  
-     Перед настройкой выполните команду setenforce 0, далее проверяем командой: getenforce   
-     должно быть состояние Permissive  
-     dnf install openssh - если не установлен
-     systemctl enable --now sshd
-     echo Port 2026 >> /etc/ssh/sshd_config
+## 5. Настройте безопасный удаленный доступ на серверах HQ-SRV и BR-SRV:  
+ ### ● Для подключения используйте порт 2026  
+    Перед настройкой выполните команду setenforce 0, далее проверяем командой: getenforce   
+    должно быть состояние Permissive  
+    dnf install openssh - если не установлен
+    systemctl enable --now sshd
+    echo Port 2026 >> /etc/ssh/sshd_config
   ### ● Разрешите подключения только пользователю sshuser  
-      echo AllowUsers sshuser >> nano /etc/ssh/sshd_config
+    echo AllowUsers sshuser >> nano /etc/ssh/sshd_config
  ### ● Ограничьте количество попыток входа до двух  
-      echo MaxAuthTries 2 >> /etc/ssh/sshd_config
+    echo MaxAuthTries 2 >> /etc/ssh/sshd_config
  ### ● Настройте баннер «Authorized access only»  
-      echo «Authorized access only» > /etc/ssh/sshd_banner
-      echo Banner /etc/ssh/sshd_banner >> /etc/ssh/sshd_config
-      systemctl restart sshd
-## 6. Между офисами HQ и BR необходимо сконфигурировать ip туннель  
-  ### o Сведения о туннеле занесите в отчёт  
-    Настройка на HQ-RTR:
+    echo «Authorized access only» > /etc/ssh/sshd_banner
+    echo Banner /etc/ssh/sshd_banner >> /etc/ssh/sshd_config
+    systemctl restart sshd
+## 6. Между офисами HQ и BR, на маршрутизаторах HQ-RTR и BR-RTR необходимо сконфигурировать ip туннель: 
+  ### o На выбор технологии GRE или IP in IP - используем GRE
+    Настройка на HQ-RTR:  
+    Interface tunnel.1   
+    Ip add 172.16.0.1/30   
+    Ip mtu 1476   
+    ip ospf network broadcast   
+    ip ospf mtu-ignore   
+    Ip tunnel 172.16.1.1 172.16.2.1 mode gre   
+    end    
+    wr mem    
+    Настройка на BR-RTR:  
     Interface tunnel.1  
-    Ip add 172.16.0.1/30  
+    Ip add 172.16.0.2/30  
     Ip mtu 1476  
-    ip ospf network broadcast  
     ip ospf mtu-ignore  
-    Ip tunnel 172.16.1.1 172.16.2.1 mode gre  
-    end  
-    wr mem  
+    ip ospf network broadcast  
+    Ip tunnel 172.16.5.1 172.16.4.1 mode gre  
+    end    
+    ПРОВЕРЯЕМ ТУННЕЛЬ ПИНГОМ ОТ РОТУЕРА К РОУТЕРУ, БЕЗ ЭТОГО НЕ ПЕРЕХОДИМ К НАСТРОЙКЕ OSPF!!!
+    Проверка на HQ-RTR: 
+    ping 172.16.0.2  
+    Проверка на BR-RTR:  
+    ping 172.16.0.1
+    Должно быть успешно с 2-х сторон!!!
+  o Сведения о туннеле занесите в отчёт
+## 7. Обеспечьте динамическую маршрутизацию на маршрутизаторах HQ-RTR и BR-RTR: сети одного офиса должны быть доступны из другого офиса и наоборот. Для обеспечения динамической маршрутизации используйте link state протокол на усмотрение участника: Будем использовать OSPF      
+  ### ● Разрешите выбранный протокол только на интерфейсах в ip туннеле   
+  ### ● Маршрутизаторы должны делиться маршрутами только друг с другом:   
+    Настройка на HQ-RTR:  
     Conf t
     Router ospf 1
     Ospf router-id  172.16.0.1
@@ -211,14 +230,7 @@
     network 192.168.0.32 0.0.0.15 area 0
     passive-interface default
     no passive-interface tunnel.1
-    Настройка на BR-RTR:
-    Interface tunnel.1
-    Ip add 172.16.0.2/30
-    Ip mtu 1476
-    ip ospf mtu-ignore
-    ip ospf network broadcast
-    Ip tunnel 172.16.5.1 172.16.4.1 mode gre
-    end
+    Настройка на BR-RTR:  
     Conf t
     Router ospf 1
     Ospf router-id 172.16.0.2
@@ -226,25 +238,21 @@
     Network 192.168.0.64 0.0.0.7 area 0
     Passive-interface default
     no passive-interface tunnel.1  
-  o На выбор технологии GRE или IP in IP  
-## 7. Обеспечьте динамическую маршрутизацию: ресурсы одного офиса должны быть доступны из другого офиса. Для обеспечения динамической  маршрутизации используйте link state протокол на ваше усмотрение.  
-  ● Разрешите выбранный протокол только на интерфейсах в ip туннеле  
-  ## ● Маршрутизаторы должны делиться маршрутами только друг с другом  
-  ### ● Обеспечьте защиту выбранного протокола посредством парольной защиты 
-     Настройка производится на EcoRouter HQ-RTR:
-     router ospf 1
-     area 0 authentication 
-     ex
-     interface tunnel.1  
-     ip ospf authentication-key ecorouter  
-     wr mem  
-     Настройка производится на EcoRouter BR-RTR:
-     router ospf 1  
-     area 0 authentication 
-     ex  
-     interface tunnel.1  
-     ip ospf authentication-key ecorouter  
-     wr mem  
+  ### ● Обеспечьте защиту выбранного протокола посредством парольной защиты  
+    Настройка производится на EcoRouter HQ-RTR:  
+    router ospf 1  
+    area 0 authentication  
+    ex  
+    interface tunnel.1   
+    ip ospf authentication-key ecorouter  
+    wr mem   
+    Настройка производится на EcoRouter BR-RTR:  
+    router ospf 1   
+    area 0 authentication  
+    ex   
+    interface tunnel.1   
+    ip ospf authentication-key ecorouter   
+    wr mem   
   ● Сведения о настройке и защите протокола занесите в отчёт  
 ## 8. Настройка динамической трансляции адресов маршрутизаторах HQRTR и BR-RTR  
  ### ● Настройте динамическую трансляцию адресов для обоих офисов в сторону ISP.  
