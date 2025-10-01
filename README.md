@@ -123,31 +123,31 @@
     port te1  
     Service-instance toSW  
     Encapsulation dot1q 999  
-    rewrite pop 1
+    rewrite pop 1  
     end  
     wr mem  
     en  
     conf t  
-    Int te1.999
-    ip add 192.168.0.73/28  
-    description toSW  
-    connect port te1 service-instance toSW  
+    Int te1.999  
+    ip add 192.168.0.73/28   
+    description toSW   
+    connect port te1 service-instance toSW   
     end  
     wr mem  
     Настройка на HQ-SW:  
     Перед настройкой линк ens3 в nmtui должен быть в состоянии - отключено
-    Адресации так же не должно быть
-    ovs-vsctl add-br hq-sw  
-    ovs-vsctl add-port hq-sw ens3 tag=999 trunks=999,100,200  
-    ifconfig ovs0-vlan999 inet 192.168.0.74/28 up  
+    Адресации так же не должно быть  
+    ovs-vsctl add-br hq-sw   
+    ovs-vsctl add-port hq-sw ens3 tag=999 trunks=999,100,200   
+    ifconfig ovs0-vlan999 inet 192.168.0.74/28 up   
  ### ● Сервер HQ-SRV должен находиться в ID VLAN 100  
-    Настройка на HQ-RTR:  
-    port te1  
-    service-instance te1.100  
-    encapsulation dot1q 100  
-    rewrite pop 1  
-    end  
-    wr mem  
+    Настройка на HQ-RTR:   
+    port te1   
+    service-instance te1.100   
+    encapsulation dot1q 100   
+    rewrite pop 1   
+    end   
+    wr mem   
     int te1.100  
     ip add 192.168.0.62/26  
     connect port te1 service-instance te1.100  
