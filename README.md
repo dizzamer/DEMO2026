@@ -99,8 +99,8 @@
     nano /etc/sysconfig/iptables - не должно быть ничего лишнего.  
     в случае если там есть то, что вы не добавляли - удалить
     iptables –L –t nat - должны высветится в Chain POSTROUTING две настроенные подсети.  
-## 3. Создание локальных учетных записей
- ### ● Создайте пользователя sshuser на серверах HQ-SRV | BR-SRV  
+## 3. Создайте локальные учетные записи на серверах HQ-SRV и BR-SRV  
+ ### ● Создание пользователя sshuser на серверах HQ-SRV | BR-SRV:    
     useradd -m -u 2026 sshuser  
     o Пароль пользователя sshuser с паролем P@ssw0rd  
     echo "sshuser:P@ssw0rd" | sudo chpasswd  
