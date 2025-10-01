@@ -109,7 +109,8 @@
     без дополнительной аутентификации.  
     usermod -aG wheel sshuser  
    ### ● Создайте пользователя net_admin на маршрутизаторах HQ-RTR и BR-RTR  
-    Настройка производится на EcoRouter:  
+    Настройка производится на EcoRouter HQ-RTR | BR-RTR:  
+    conf t  
     username net_admin  
     o Пароль пользователя net_admin с паролем P@ssw0rd  
     password P@ssw0rd   
