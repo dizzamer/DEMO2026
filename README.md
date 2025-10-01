@@ -3,7 +3,8 @@
 ## 1. Произведите базовую настройку устройств  
  ### ● Настройте имена устройств согласно топологии. Используйте полное доменное имя
     HQ-RTR | BR-RTR:  
-    в режиме глобальной конфигурации hostname {hq-rtr, br-rtr}    
+    conf t
+    hostname {hq-rtr.au-team.irpo, br-rtr.au-team.irpo}    
     HQ-SRV | HQ-CLI | BR-SRV:  
     hostnamectl set-hostname {hq-srv, hq-cli, br-srv}.au-team.irpo; exec bash  
  ### ● На всех устройствах необходимо сконфигурировать IPv4  
