@@ -141,7 +141,8 @@
     ovs-vsctl add-port hq-sw ens3 tag=999 trunks=999,100,200   
     ifconfig ovs0-vlan999 inet 192.168.0.74/28 up   
  ### ● Сервер HQ-SRV должен находиться в ID VLAN 100  
-    Настройка на HQ-RTR:   
+    Настройка на HQ-RTR:  
+    conf t  
     port te1   
     service-instance te1.100   
     encapsulation dot1q 100   
@@ -159,6 +160,7 @@
     ovs-vsctl add-port hq-sw ens4 tag=100  
  ### ● Клиент HQ-CLI в ID VLAN 200  
     Настройка на HQ-RTR:  
+    conf t  
     port te1  
     service-instance te1.200  
     encapsulation dot1q 200  
