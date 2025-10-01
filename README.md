@@ -150,7 +150,7 @@
     end   
     wr mem   
     int te1.100  
-    ip add 192.168.0.62/26  
+    ip add 192.168.0.1/27  
     connect port te1 service-instance te1.100  
     end  
     wr mem  
@@ -168,7 +168,7 @@
     end  
     wr mem  
     int te1.200  
-    ip add 192.168.1.78/28  
+    ip add 192.168.0.33/28  
     connect port te1 service-instance te1.200 
     end  
     wr mem  
