@@ -343,14 +343,14 @@
     systemctl enable --now named  
     cp /etc/named.conf /etc/named.conf.backup - делаем бэкап файла  
     nano /etc/named.conf  
-    ![named первая часть](https://github.com/dizzamer/DEMO2025/blob/main/namedconf.png)  
-    ![named вторая часть](https://github.com/dizzamer/DEMO2025/blob/main/namedconf2.png)  
+    ![named первая часть](https://github.com/dizzamer/DEMO2026/blob/main/namedconf.png)  
+    ![named вторая часть](https://github.com/dizzamer/DEMO2026/blob/main/namedconf2.png)  
     mkdir /var/named/master  
     nano /var/named/master/au-team  
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2025/blob/main/au-team.png)  
+    ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/au-team.png)  
     nano /var/named/master/168.192.zone  
     можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2025/blob/main/168.192zone.png)  
+    ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/168.192zone.png)  
     chown -R root:named /var/named/master/
     chown -R named:named /var/named
     chown -R root:named /etc/named.conf  
@@ -358,10 +358,10 @@
     chmod 750 /var/named/master/  
     systemctl restart named  
     Проверить зоны можно командой named-checkconf -z  
-     ![au team irpo зона](https://github.com/dizzamer/DEMO2025/blob/main/chechkconf.png)  
+     ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/chechkconf.png)  
      Для полной работоспособности на HQ-CLI нужно установить в качестве dns севрера HQ-SRV:  
      nano /etc/resolv.conf на всех устройствах должен иметь следюущий вид:  
-     ![resolvconf](https://github.com/dizzamer/DEMO2025/blob/main/resolv.conf.png)  
+     ![resolvconf](https://github.com/dizzamer/DEMO2026/blob/main/resolv.conf.png)  
      resolvectl dns ens3 192.168.0.2  
      Для полной работоспособности на HQ-RTR нужно установить в качестве dns севрера HQ-SRV:  
      ip name-server 192.168.0.2  
