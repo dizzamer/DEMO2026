@@ -150,10 +150,11 @@
     end  
     wr mem  
     Настройка на HQ-SW:  
-    Перед настройкой линк ens3 в nmtui должен быть в состоянии - отключено
-    Адресации так же не должно быть  
-    ovs-vsctl add-br hq-sw   
-    ovs-vsctl add-port hq-sw ens3 tag=999 trunks=999,100,200   
+    Адресации так не должно быть  
+    ovs-vsctl add-br hq-sw  
+    ovs-vsctl add-port hq-sw ens3  
+    ovs-vsctl set port ens3 vlan_mode=native-untagged tag=999 trunks=999,100,200  
+    ovs-vsctl add-port hq-sw ovs0-vlan999 tag=999 -- set interface ovs0-vlan999 type=internal  
     ifconfig ovs0-vlan999 inet 192.168.0.74/28 up   
  ### ● Трафик HQ-SRV должен принадлежать VLAN 100    
     Настройка на HQ-RTR:  
@@ -172,7 +173,10 @@
     Настройка на HQ-SW:  
     Адресации не должно быть
     Так как при настройке на HQ-SW бридж hq-sw уже создан, его создавать не нужно
-    ovs-vsctl add-port hq-sw ens4 tag=100  
+    ovs-vsctl add-port hq-sw ens4  
+    ovs-vsctl set port ens4 tag=100 trunks=100  
+    ovs-vsctl add-port hq-sw ovs0-vlan100 tag=100 -- set interface ovs0-vlan100 type=internal  
+    ifconfig ovs0-vlan100 inet up 
  ### ● Трафик HQ-CLI должен принадлежать VLAN 200    
     Настройка на HQ-RTR:  
     conf t  
@@ -190,7 +194,10 @@
     Настройка на HQ-SW: 
     Адресации не должно быть
     Так как при настройке на HQ-SW бридж hq-sw уже создан, его создавать не нужно
-    ovs-vsctl add-port hq-sw ens5 tag=200 
+    ovs-vsctl add-port hq-sw ens5  
+    ovs-vsctl set port ens5 tag=200 trunks=200  
+    ovs-vsctl add-port hq-sw ovs0-vlan200 tag=200 -- set interface ovs0-vlan200 type=internal  
+    ifconfig ovs0-vlan200 inet up   
 **● Сведения о настройке коммутации внесите в отчёт**  
 ## 5. Настройте безопасный удаленный доступ на серверах HQ-SRV и BR-SRV:  
  ### ● Для подключения используйте порт 2026  
