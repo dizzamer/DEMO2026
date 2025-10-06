@@ -528,7 +528,7 @@
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_conf_hqsrv.png)  
     Переводим службу в автозапуск и запускаем:    
     systemctl enable --now chronyd  
-    Проевряем настройку командой chronyc sources -v, должен отобразиться наш сервер:  
+    Проевряем настройку командой chronyc sources, должен отобразиться наш сервер:  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_sources_hqsrv.png)  
     Не паникуем, может сразу не появится рестартим сервис несколько раз командой systemctl restart chronyd  
   ### Настройка проивзодится на BR-RTR:  
