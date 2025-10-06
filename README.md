@@ -464,7 +464,7 @@
  ## •	Создаем точку монтирования и примонтируемся     
     mkdir -p /raid   
     mount -a   
-  ![mount](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mount.png)   
+  ![mount](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mount1.png)   
  ## 3. Настройте сервер сетевой файловой системы(nfs) на HQ-SRV
  ### Настройка проивзодится на HQ-SRV:
   ## • в качестве папки общего доступа выберите /raid/nfs, доступ для чтения и записи для всей сети в сторону HQ-CLI   
