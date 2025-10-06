@@ -495,58 +495,58 @@
    •	Основные параметры сервера отметьте в отчёте  
   ## 4.	Настройте службу сетевого времени на базе сервиса chrony на маршрутизаторе ISP  
   ### Настройка проивзодится на ISP:  
-  В РЕД ОС сервис Chrony уже установлен по умолчанию.  
-  •	Стратум сервера - 5  
-  Вносим изменения в файл конфигурации:  
-  Добавляем сети, которые необходимы и выставляем stratum 5  
-  nano /etc/chrony.conf   
+     В РЕД ОС сервис Chrony уже установлен по умолчанию.  
+     •	Стратум сервера - 5  
+     Вносим изменения в файл конфигурации:  
+     Добавляем сети, которые необходимы и выставляем stratum 5  
+     nano /etc/chrony.conf   
   ![chrony_conf](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chrony_conf.png)  
-  Переводим службу в автозапуск и запускаем:   
-  systemctl enable --now chronyd   
-  •	В качестве клиентов ntp настройте: HQ-SRV, HQ-CLI, BR-RTR, BR-SRV.   
+     Переводим службу в автозапуск и запускаем:   
+     systemctl enable --now chronyd   
+  ## •	В качестве клиентов ntp настройте: HQ-SRV, HQ-CLI, BR-RTR, BR-SRV.   
   ### Настройка проивзодится на HQ-RTR:  
-  en  
-  conf t  
-  ntp server 172.16.1.14  
-  ex  
-  wr mem  
+     en  
+     conf t  
+     ntp server 172.16.1.14  
+     ex  
+     wr mem  
   ### Настройка проивзодится на HQ-CLI:  
-  В РЕД ОС сервис Chrony уже установлен по умолчанию. 
-  Вносим изменения в файл конфигурации:  
-  Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.1.14  
-  nano /etc/chrony.conf  
+     В РЕД ОС сервис Chrony уже установлен по умолчанию. 
+     Вносим изменения в файл конфигурации:  
+     Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.1.14  
+     nano /etc/chrony.conf  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chrony_conf_cli.png)
-  Переводим службу в автозапуск и запускаем:    
-  systemctl enable --now chronyd  
-  Проевряем настройку командой chronyc sources -v, должен отобразиться наш сервер:  
+    Переводим службу в автозапуск и запускаем:    
+    systemctl enable --now chronyd  
+    Проевряем настройку командой chronyc sources -v, должен отобразиться наш сервер:  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_sources_cli.png)  
-  Не паникуем, может сразу не появится, рестартим сервис несколько раз командой systemctl restart chronyd  
+    Не паникуем, может сразу не появится, рестартим сервис несколько раз командой systemctl restart chronyd  
   ### Настройка проивзодится на HQ-SRV:  
-  Вносим изменения в файл конфигурации:  
-  Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.1.14   
-  nano /etc/chrony.conf  
+    Вносим изменения в файл конфигурации:  
+    Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.1.14   
+    nano /etc/chrony.conf  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_conf_hqsrv.png)  
-  Переводим службу в автозапуск и запускаем:    
-  systemctl enable --now chronyd  
-  Проевряем настройку командой chronyc sources -v, должен отобразиться наш сервер:  
+    Переводим службу в автозапуск и запускаем:    
+    systemctl enable --now chronyd  
+    Проевряем настройку командой chronyc sources -v, должен отобразиться наш сервер:  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_sources_hqsrv.png)  
-  Не паникуем, может сразу не появится рестартим сервис несколько раз командой systemctl restart chronyd  
+    Не паникуем, может сразу не появится рестартим сервис несколько раз командой systemctl restart chronyd  
   ### Настройка проивзодится на BR-RTR:  
-  en  
-  conf t  
-  ntp server 172.16.2.14  
-  ex  
-  wr mem  
+    en  
+    conf t  
+    ntp server 172.16.2.14  
+    ex  
+    wr mem  
   ### Настройка проивзодится на BR-SRV:   
-  Вносим изменения в файл конфигурации:  
-  Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.2.14   
-  nano /etc/chrony.conf  
+    Вносим изменения в файл конфигурации:  
+    Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.2.14   
+    nano /etc/chrony.conf  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_conf_brsrv.png)  
-  Переводим службу в автозапуск и запускаем:    
-  systemctl enable --now chronyd  
-  Проевряем настройку командой chronyc sources, должен отобразиться наш сервер:  
+    Переводим службу в автозапуск и запускаем:    
+    systemctl enable --now chronyd  
+    Проевряем настройку командой chronyc sources, должен отобразиться наш сервер:  
   ![chrony_conf_cli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chronyc_sources_brsrv.png)  
-  Не паникуем, может сразу не появится рестартим сервис несколько раз командой systemctl restart chronyd  
+    Не паникуем, может сразу не появится рестартим сервис несколько раз командой systemctl restart chronyd  
 ## 5.	Сконфигурируйте ansible на сервере BR-SRV  
   ### Настройка подключения по ssh BR-RTR | HQ-RTR
      Настройка производится на HQ-RTR:  
