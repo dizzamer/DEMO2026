@@ -317,16 +317,17 @@
 ## 9. Настройте протокол динамической конфигурации хостов для сети в сторону HQ-CLI:    
    ● Настройте нужную подсеть  
   ### ● Для офиса HQ в качестве сервера DHCP выступает маршрутизатор HQ-RTR    
-    Настройка производится на EcoRouter HQ-RTR:
-    ip pool dhcpHQ 192.168.0.34-192.168.0.62
-    en
-    conf t
-    dhcp-server 1
-    pool dhcpHQ 1
-    domain-name au-team.irpo
+    Настройка производится на EcoRouter HQ-RTR:  
+    ip pool dhcpHQ 192.168.0.34-192.168.0.62  
+    en  
+    conf t  
+    dhcp-server 1  
     mask 255.255.255.240  
-    dns 192.168.0.2    
-    gateway 192.168.0.33    
+    pool dhcpHQ 1  
+    domain-name au-team.irpo  
+    mask 255.255.255.240   
+    dns 192.168.0.2     
+    gateway 192.168.0.33     
     end  
     wr mem  
   ###  ● Клиентом является машина HQ-CLI.  
