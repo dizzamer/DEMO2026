@@ -349,7 +349,7 @@
     nano /var/named/master/au-team  
     ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/au-team.png)  
     nano /var/named/master/168.192.zone  
-    можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать
+    можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать  
     ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/168.192zone.png)  
     chown -R root:named /var/named/master/
     chown -R named:named /var/named
