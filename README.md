@@ -339,34 +339,34 @@
   ● DNS-суффикс для офисов HQ – au-team.irpo  
   ● Сведения о настройке протокола занесите в отчёт  
 ## 10. Настройте инфраструктуру разрешения доменных имён для офисов HQ и BR:    
-  ● Основной DNS-сервер реализован на HQ-SRV    
-    dnf install bind -y  
-    systemctl enable --now named  
-    cp /etc/named.conf /etc/named.conf.backup - делаем бэкап файла  
-    nano /etc/named.conf  
-    ![named первая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf.png)  
-    ![named вторая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf2.png)  
-    mkdir /var/named/master  
-    nano /var/named/master/au-team  
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/au-team.png)  
-    nano /var/named/master/168.192.zone  
-    можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать  
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/168.192zone.png)  
-    chown -R root:named /var/named/master/
-    chown -R named:named /var/named
-    chown -R root:named /etc/named.conf  
-    chmod 750 /var/named/  
-    chmod 750 /var/named/master/  
-    systemctl restart named  
-    Проверить зоны можно командой named-checkconf -z  
-     ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chechkconf.png)  
-     Для полной работоспособности на HQ-CLI нужно установить в качестве dns севрера HQ-SRV:  
-     nano /etc/resolv.conf на всех устройствах должен иметь следюущий вид:  
-     ![resolvconf](https://github.com/dizzamer/DEMO2026-Profile/blob/main/resolv.conf.png)  
-     resolvectl dns ens3 192.168.0.2  
-     Для полной работоспособности на HQ-RTR нужно установить в качестве dns севрера HQ-SRV:  
-     ip name-server 192.168.0.2  
-     На остальных устройствах делаем подобным образом.  
+    ● Основной DNS-сервер реализован на HQ-SRV    
+      dnf install bind -y  
+      systemctl enable --now named  
+      cp /etc/named.conf /etc/named.conf.backup - делаем бэкап файла  
+      nano /etc/named.conf  
+   ![named первая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf.png)  
+   ![named вторая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf2.png)  
+      mkdir /var/named/master  
+      nano /var/named/master/au-team  
+   ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/au-team.png)  
+      nano /var/named/master/168.192.zone  
+      можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать  
+   ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/168.192zone.png)  
+      chown -R root:named /var/named/master/
+      chown -R named:named /var/named
+      chown -R root:named /etc/named.conf  
+      chmod 750 /var/named/  
+      chmod 750 /var/named/master/  
+      systemctl restart named  
+      Проверить зоны можно командой named-checkconf -z  
+    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chechkconf.png)  
+      Для полной работоспособности на HQ-CLI нужно установить в качестве dns севрера HQ-SRV:  
+      nano /etc/resolv.conf на всех устройствах должен иметь следюущий вид:  
+    ![resolvconf](https://github.com/dizzamer/DEMO2026-Profile/blob/main/resolv.conf.png)  
+      resolvectl dns ens3 192.168.0.2  
+      Для полной работоспособности на HQ-RTR нужно установить в качестве dns севрера HQ-SRV:  
+      ip name-server 192.168.0.2  
+      На остальных устройствах делаем подобным образом.  
   ● Сервер должен обеспечивать разрешение имён в сетевые адреса устройств и обратно в соответствии с таблицей 3  
 ### Таблица 3. Таблица имен  
    | Устройство | Запись              | Тип    | 
@@ -494,12 +494,12 @@
       После этого при создании файла на клиенте, он должен появляться и на сервере
    •	Основные параметры сервера отметьте в отчёте  
   ## 4.	Настройте службу сетевого времени на базе сервиса chrony на маршрутизаторе ISP  
-  ### Настройка проивзодится на ISP:  
+  ### Настройка проивзодится на ISP:     
+     •	Стратум сервера - 5   
      В РЕД ОС сервис Chrony уже установлен по умолчанию.  
-     •	Стратум сервера - 5  
-     Вносим изменения в файл конфигурации:  
-     Добавляем сети, которые необходимы и выставляем stratum 5  
-     nano /etc/chrony.conf   
+     Вносим изменения в файл конфигурации:    
+     Добавляем сети, которые необходимы и выставляем stratum 5   
+     nano /etc/chrony.conf    
   ![chrony_conf](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chrony_conf.png)  
      Переводим службу в автозапуск и запускаем:   
      systemctl enable --now chronyd   
