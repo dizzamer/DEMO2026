@@ -471,7 +471,7 @@
   ## •	Создаем папку для NFS  
     mkdir -p /raid/nfs  
     chmod 777 /raid/nfs  
- ![mkdir_nfs](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mkdir_nfs.png)  
+ ![mkdir_nfs](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mkdir_nfsn.png)  
  ## Настройка экспорта  
     Добавляем в /etc/exports:  
     nano /etc/exports  
