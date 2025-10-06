@@ -457,7 +457,7 @@
     Добавляем в /etc/fstab:    
     nano /etc/fstab  
     /dev/md0 /raid5 ext4 defaults 0 0  
-![fstab](https://github.com/dizzamer/DEMO2025/blob/main/fstab.png)  
+![fstab](https://github.com/dizzamer/DEMO2026/blob/main/etcfstab.png)  
  ## •	Создайте раздел, отформатируйте раздел, в качестве файловой системы используйте ext4  
      mkfs.ext4 /dev/md0  
    ![mkfs](https://github.com/dizzamer/DEMO2025/blob/main/mkfs.png)   
@@ -476,7 +476,7 @@
     Добавляем в /etc/exports:  
     nano /etc/exports  
     /raid5/nfs 192.168.0.32/28(rw,sync,insecure,nohide,all_squash,no_subtree_check)
-![exports](https://github.com/dizzamer/DEMO2025/blob/main/etcexports.png)  
+![exports](https://github.com/dizzamer/DEMO2026/blob/main/exports.png)  
   ## Применяем изменения и перезагружаем службу
     exportfs -rav  
     systemctl restart nfs-server  
