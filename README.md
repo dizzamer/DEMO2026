@@ -453,7 +453,7 @@
  ![mdaddetail](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mdadm_detail.png)  
 ## •	Имя устройства – md0, конфигурация массива размещается в файле /etc/mdadm.conf  
     mdadm --detail --scan >> /etc/mdadm.conf      
- ## •	Обеспечьте автоматическое монтирование в папку /raid5  
+ ## •	Обеспечьте автоматическое монтирование в папку /raid     
     Добавляем в /etc/fstab:    
     nano /etc/fstab  
     /dev/md0 /raid5 ext4 defaults 0 0  
@@ -485,7 +485,7 @@
       Добавляем в /etc/fstab:    
       nano /etc/fstab  
       hq-srv:/raid/nfs /mnt/nfs nfs defaults 0 0
-  ![fstab_hqcli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/fstab_hqcli.png)  
+  ![fstab_hqcli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/etcfstab%20cli.png)  
   ## Создаем точку монтирования и примонтируемся  
     mkdir -p /mnt/nfs  
     mount -a 
