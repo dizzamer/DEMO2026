@@ -344,14 +344,14 @@
     systemctl enable --now named  
     cp /etc/named.conf /etc/named.conf.backup - делаем бэкап файла  
     nano /etc/named.conf  
-    ![named первая часть](https://github.com/dizzamer/DEMO2026/blob/main/namedconf.png)  
-    ![named вторая часть](https://github.com/dizzamer/DEMO2026/blob/main/namedconf2.png)  
+    ![named первая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf.png)  
+    ![named вторая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf2.png)  
     mkdir /var/named/master  
     nano /var/named/master/au-team  
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/au-team.png)  
+    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/au-team.png)  
     nano /var/named/master/168.192.zone  
     можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать  
-    ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/168.192zone.png)  
+    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/168.192zone.png)  
     chown -R root:named /var/named/master/
     chown -R named:named /var/named
     chown -R root:named /etc/named.conf  
@@ -359,10 +359,10 @@
     chmod 750 /var/named/master/  
     systemctl restart named  
     Проверить зоны можно командой named-checkconf -z  
-     ![au team irpo зона](https://github.com/dizzamer/DEMO2026/blob/main/chechkconf.png)  
+     ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chechkconf.png)  
      Для полной работоспособности на HQ-CLI нужно установить в качестве dns севрера HQ-SRV:  
      nano /etc/resolv.conf на всех устройствах должен иметь следюущий вид:  
-     ![resolvconf](https://github.com/dizzamer/DEMO2026/blob/main/resolv.conf.png)  
+     ![resolvconf](https://github.com/dizzamer/DEMO2026-Profile/blob/main/resolv.conf.png)  
      resolvectl dns ens3 192.168.0.2  
      Для полной работоспособности на HQ-RTR нужно установить в качестве dns севрера HQ-SRV:  
      ip name-server 192.168.0.2  
@@ -449,8 +449,8 @@
   dnf install mdadm nfs-utils -y
 ## •	При помощи трёх дополнительных дисков, размером 1Гб каждый, на HQ-SRV сконфигурируйте дисковый массив уровня 5  
     mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd     
- ![mdadmcreate](https://github.com/dizzamer/DEMO2025/blob/main/mdadm_create.png)    
- ![mdaddetail](https://github.com/dizzamer/DEMO2025/blob/main/mdadm_detail.png)  
+ ![mdadmcreate](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mdadm_create.png)    
+ ![mdaddetail](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mdadm_detail.png)  
 ## •	Имя устройства – md0, конфигурация массива размещается в файле /etc/mdadm.conf  
     mdadm --detail --scan >> /etc/mdadm.conf      
  ## •	Обеспечьте автоматическое монтирование в папку /raid5  
@@ -460,18 +460,18 @@
 ![fstab]](https://github.com/dizzamer/DEMO2026-Profile/blob/main/etcfstab.png)  
  ## •	Создайте раздел, отформатируйте раздел, в качестве файловой системы используйте ext4  
      mkfs.ext4 /dev/md0  
-   ![mkfs](https://github.com/dizzamer/DEMO2025/blob/main/mkfs.png)   
+   ![mkfs](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mkfs.png)   
  ## •	Создаем точку монтирования и примонтируемся     
     mkdir -p /raid   
     mount -a   
-  ![mount](https://github.com/dizzamer/DEMO2025/blob/main/mount.png)   
+  ![mount](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mount.png)   
  ## 3. Настройте сервер сетевой файловой системы(nfs) на HQ-SRV
  ### Настройка проивзодится на HQ-SRV:
   ## • в качестве папки общего доступа выберите /raid/nfs, доступ для чтения и записи для всей сети в сторону HQ-CLI   
   ## •	Создаем папку для NFS  
     mkdir -p /raid/nfs  
     chmod 777 /raid/nfs  
- ![mkdir_nfs](https://github.com/dizzamer/DEMO2025/blob/main/mkdir_nfs.png)  
+ ![mkdir_nfs](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mkdir_nfs.png)  
  ## Настройка экспорта  
     Добавляем в /etc/exports:  
     nano /etc/exports  
@@ -485,11 +485,11 @@
       Добавляем в /etc/fstab:    
       nano /etc/fstab  
       hq-srv:/raid/nfs /mnt/nfs nfs defaults 0 0
-  ![fstab_hqcli](https://github.com/dizzamer/DEMO2025/blob/main/fstab_hqcli.png)  
+  ![fstab_hqcli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/fstab_hqcli.png)  
   ## Создаем точку монтирования и примонтируемся  
     mkdir -p /mnt/nfs  
     mount -a 
-  ![mountdir_hqcli](https://github.com/dizzamer/DEMO2025/blob/main/nount_cli.png)  
+  ![mountdir_hqcli](https://github.com/dizzamer/DEMO2026-Profile/blob/main/nount_cli.png)  
   ## Проверка монтирования
       После этого при создании файла на клиенте, он должен появляться и на сервере
    •	Основные параметры сервера отметьте в отчёте  
@@ -566,7 +566,7 @@
       [routers:vars]
       ansible_user=net_admin
       ansible_password=P@$$word
-   ![inventory](https://github.com/dizzamer/DEMO2025/blob/main/inventoryini.png) 
+   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png) 
    ###  Настройка подключения по ключам на BR-SRV
     2) Подключение к хостам осуществляется по протоколу ssh с помощью rsa ключей.  
     Для начала переходим в ранее созданно пользователя sshuser командой:
@@ -584,7 +584,7 @@
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
     ansible -i /etc/ansible/inventory.ini all -m ping 
     В результате под каждым хостом должно быть написано "ping": "pong".  
-![inventory](https://github.com/dizzamer/DEMO2025/blob/main/ansubleping.png)   
+![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansubleping.png)   
 
 ## 6.	Развертывание приложений в Docker на сервере BR-SRV. 
     Установка необходимых пакетов:  
@@ -607,10 +607,10 @@
      порт 8080
       Поднимаем стек контейнеров с помощью команды: 
       docker compose -f wiki.yml up -d  
- ![wikiyml](https://github.com/dizzamer/DEMO2025/blob/main/wikiyml.png)  
+ ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/wikiyml.png)  
 ### Настройка mediawiki после успешного поднятия контейнеров  
   Переходим по доменному имени или адреса нашего сервера, должны увидеть такую картину:  
- ![wikistart](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki.png)  
+ ![wikistart](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mediawiki.png)  
   Далее настройка выглядит следуюшим образом:  
   На скриншоте ниже здесь этап проверки всего необходимого для работы MediaWiki, проверка должна пройти успешно  
   ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki2.png)  
