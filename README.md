@@ -52,7 +52,7 @@
  | HQ-RTR           | 172.16.1.1/28            | te0         | ISP_HQ    | 172.16.1.14  |
  |                  | 192.168.0.73/28          | te1.999     | HQ_NET    |              |
  |                  | 192.168.0.1/27           | te1.100     | -         |              |
- |                  | 192.168.0.34/27          | te1.200     | -         |              |
+ |                  | 192.168.0.33/27          | te1.200     | -         |              |
  |                  | 172.16.0.1/30            | GRE         | TUN       |              |
  | HQ-SW            | 192.168.0.74/28          | ens3        | HQ_NET    |              |
  |                  | -                        | ens4        | SRV_NET   |              |
@@ -249,7 +249,7 @@
     Ospf router-id  172.16.0.1
     network 172.16.0.0 0.0.0.3 area 0
     network 192.168.0.0 0.0.0.31 area 0
-    network 192.168.0.32 0.0.0.15 area 0
+    network 192.168.0.32 0.0.0.31 area 0
     passive-interface default
     no passive-interface tunnel.1
     Настройка на BR-RTR:  
@@ -318,7 +318,7 @@
    ● Настройте нужную подсеть  
   ### ● Для офиса HQ в качестве сервера DHCP выступает маршрутизатор HQ-RTR    
     Настройка производится на EcoRouter HQ-RTR:  
-    ip pool dhcpHQ 192.168.0.35-192.168.0.62  
+    ip pool dhcpHQ 192.168.0.34-192.168.0.62  
     en  
     conf t  
     dhcp-server 1  
@@ -327,7 +327,7 @@
     domain-name au-team.irpo  
     mask 255.255.255.224  
     dns 192.168.0.2     
-    gateway 192.168.0.34     
+    gateway 192.168.0.33     
     end  
     wr mem  
   ###  ● Клиентом является машина HQ-CLI.  
