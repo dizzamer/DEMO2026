@@ -583,25 +583,25 @@
     • Рабочий каталог ansible должен располагаться в /etc/ansible  
       dnf install ansible -y  
       1) В файле можно прописывать как ip адреса так и имена хостов, сделаем следующим образом.  
-      Так как у нас порт для покдлючения к серверам и клиентам 2024, укажим необходимые переменные для подключения  
+      Так как у нас порт для покдлючения к серверам и клиентам 2026, укажим необходимые переменные для подключения  
       Для роутера так же указываем переменные, для подключения к роутерам будем использовать пользователя net_admin
       nano /etc/ansible/inventory.ini  
       [clients]
-      hq-cli ansible_host=192.168.1.65
+      hq-cli ansible_host=192.168.0.34
         
       [servers]
       hq-srv ansible_host=192.168.0.2
          
       [routers]
-      hq-rtr ansible_host=192.168.0.62
-      br-rtr ansible_host=172.16.5.1
+      hq-rtr ansible_host=172.16.1.1
+      br-rtr ansible_host=172.16.2.1
          
       [clients:vars]
-      ansible_port=2024
+      ansible_port=2026
       ansible_user=sshuser
          
       [servers:vars]
-      ansible_port=2024
+      ansible_port=2026
       ansible_user=sshuser
  
       [routers:vars]
@@ -636,7 +636,7 @@
 ### •	Создайте в домашней директории пользователя файл wiki.yml для приложения MediaWiki.  
      • Средствами docker должен создаваться стек контейнеров с веб
      приложением и базой данных
-     • Используйте образы site_latestи mariadb_latestрасполагающиеся в
+     • Используйте образы site_latest и mariadb_latest располагающиеся в
      директории docker в образе Additional.iso
      • Основной контейнер testapp должен называться tespapp
      • Контейнер с базой данных должен называться db
