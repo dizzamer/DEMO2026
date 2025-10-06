@@ -113,7 +113,7 @@
     iptables-save > /etc/sysconfig/iptables  
     systemctl restart iptables  
     nano /etc/sysconfig/iptables - не должно быть ничего лишнего.  
-    в случае если там есть то, что вы не добавляли - удалить
+    в случае если там есть то, что вы не добавляли - удалить, затем убрать из буфера старые правила с помощью iptables -F, далее перезагружаем службу iptables  
     iptables –L –t nat - должны высветится в Chain POSTROUTING две настроенные подсети.  
 ## 3. Создайте локальные учетные записи на серверах HQ-SRV и BR-SRV  
  ### ● Создание пользователя sshuser на серверах HQ-SRV | BR-SRV:    
