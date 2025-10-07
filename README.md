@@ -597,16 +597,21 @@
       br-rtr ansible_host=172.16.2.1
          
       [clients:vars]
-      ansible_port=2026
-      ansible_user=sshuser
+      ansible_port=22
+      ansible_user=student
+      ansible_password=student
          
       [servers:vars]
       ansible_port=2026
       ansible_user=sshuser
+      ansible_password=P@ssw0rd
  
       [routers:vars]  
+      ansible_port=22
       ansible_user=net_admin  
-      ansible_password=P@ssw0rd  
+      ansible_password=P@ssw0rd
+      
+      
    ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png)  
   ### •	Все указанные машины должны без предупреждений и ошибок отвечать pong на команду ping в ansible посланную с BR-SRV  
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
