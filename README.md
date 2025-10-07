@@ -457,7 +457,7 @@
     Добавляем в /etc/fstab:    
     nano /etc/fstab  
     /dev/md0 /raid5 ext4 defaults 0 0  
-![fstab]](https://github.com/dizzamer/DEMO2026-Profile/blob/main/etcfstab.png)  
+![fstab](https://github.com/dizzamer/DEMO2026-Profile/blob/main/etcfstab.png)  
  ## •	Создайте раздел, отформатируйте раздел, в качестве файловой системы используйте ext4  
      mkfs.ext4 /dev/md0  
    ![mkfs](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mkfs.png)   
