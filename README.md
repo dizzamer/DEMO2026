@@ -207,7 +207,7 @@
     systemctl enable --now sshd
     echo Port 2026 >> /etc/ssh/sshd_config
   ### ● Разрешите подключения только пользователю sshuser  
-    echo AllowUsers sshuser >> nano /etc/ssh/sshd_config
+    echo AllowUsers sshuser >> /etc/ssh/sshd_config
  ### ● Ограничьте количество попыток входа до двух  
     echo MaxAuthTries 2 >> /etc/ssh/sshd_config
  ### ● Настройте баннер «Authorized access only»  
