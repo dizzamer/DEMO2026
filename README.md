@@ -579,8 +579,8 @@
      conf
      no security default
   ## •	Сформируйте файл инвентаря, в инвентарь должны входить HQ-SRV, HQ-CLI, HQ-RTR и BR-RTR  
-   ### Настройка производится на HQ-CLI:
-       dnf install ansible sshpass -y 
+   ### Настройка производится на HQ-SRV:
+       sudo dnf install ansible sshpass -y 
    ### Настройка производится на BR-SRV:  
     • Рабочий каталог ansible должен располагаться в /etc/ansible  
       dnf install ansible sshpass -y  
