@@ -537,7 +537,7 @@
     ntp server 172.16.2.14  
     ex  
     wr mem  
-  ### Настройка проивзодится на BR-SRV:   
+  ### Настройка производится на BR-SRV:   
     Вносим изменения в файл конфигурации:  
     Комментируем/удаляем строки, где указаны ntp сервера и добавляем наш сервер 172.16.2.14   
     nano /etc/chrony.conf  
@@ -607,20 +607,7 @@
       [routers:vars]  
       ansible_user=net_admin  
       ansible_password=P@ssw0rd  
-   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png) 
-   ###  Настройка подключения по ключам на BR-SRV
-    2) Подключение к хостам осуществляется по протоколу ssh с помощью rsa ключей.  
-    Для начала переходим в ранее созданно пользователя sshuser командой:
-    su sshuser
-    Сгенерировать серверный ключ можно командой ниже. При её выполнении везде нажмите Enter.
-    ssh-keygen
-    3) Далее нужно распространить ключ на все подключенные хосты.  
-    Распространить ключи на хосты можно командой:  
-    На роутеры ключи пробрасывать не нужно, для них подключение по паролю!
-    ssh-copy-id sshuser@{hq-srv, hq-cli} 
-    где:  
-    sshuser - это пользователь, от имени которого будут выполняться плейбуки;  
-    server - IP-адрес хоста.  
+   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png)  
   ### •	Все указанные машины должны без предупреждений и ошибок отвечать pong на команду ping в ansible посланную с BR-SRV  
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
     ansible -i /etc/ansible/inventory.ini all -m ping 
