@@ -585,7 +585,7 @@
     • Рабочий каталог ansible должен располагаться в /etc/ansible  
       dnf install ansible sshpass -y  
       1) В файле можно прописывать как ip адреса так и имена хостов, сделаем следующим образом.  
-      Так как у нас порт для покдлючения к серверам и клиентам 2026, укажим необходимые переменные для подключения  
+      Так как у нас порт для покдлючения к серверам 2026 и клиентам 22, укажим необходимые переменные для подключения  
       Для роутера так же указываем переменные, для подключения к роутерам будем использовать пользователя net_admin
       nano /etc/ansible/inventory.ini  
       [clients]
@@ -613,11 +613,11 @@
       ansible_user=net_admin  
       ansible_password=P@ssw0rd
   
-   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png)  
+   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventory_ini.png)  
   ### •	Все указанные машины должны без предупреждений и ошибок отвечать pong на команду ping в ansible посланную с BR-SRV  
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
-    ansible -i /etc/ansible/inventory.ini all -m ping 
-    В результате под каждым хостом должно быть написано "ping": "pong".  
+    ansible -i /etc/ansible/inventory.ini all -m ping  
+    В результате под каждым хостом должно быть написано "ping": "pong".    
 ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansubleping.png)   
 
 ## 6.	Развертывание приложений в Docker на сервере BR-SRV. 
