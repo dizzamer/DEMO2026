@@ -604,21 +604,22 @@
       ansible_password=student
          
       [servers:vars]
-      ansible_port=2026
-      ansible_user=sshuser
-      ansible_password=P@ssw0rd
+      ansible_port=2026 
+      ansible_user=sshuser 
+      ansible_password=P@ssw0rd 
  
       [routers:vars]  
-      ansible_port=22
-      ansible_user=net_admin  
-      ansible_password=P@ssw0rd
-  
-   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventory_ini.png)  
+      ansible_port=22  
+      ansible_user=net_admin    
+      ansible_password=P@ssw0rd  
+      ansible_connection=network_cli  
+      ansible_network_os=ios  
+   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventory_ini1.png)  
   ### •	Все указанные машины должны без предупреждений и ошибок отвечать pong на команду ping в ansible посланную с BR-SRV  
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
     ansible -i /etc/ansible/inventory.ini all -m ping  
     В результате под каждым хостом должно быть написано "ping": "pong".    
-![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansubleping.png)   
+![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansible_ping.png)   
 
 ## 6.	Развертывание приложений в Docker на сервере BR-SRV. 
     Установка необходимых пакетов:  
