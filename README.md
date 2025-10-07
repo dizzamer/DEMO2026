@@ -421,7 +421,7 @@
      sudo rm -rf /var/lib/samba/private/dns.keytab  
      Добавляем в файл /etc/samba/smb.conf следующее  
    ![smbconf](https://github.com/dizzamer/DEMO2025/blob/main/smbconf.png)  
-   
+ 
       Запустите и добавьте в автозагрузку службы samba и named:  
       systemctl enable named samba --now  
       systemctl status named samba  
@@ -604,9 +604,9 @@
       ansible_port=2026
       ansible_user=sshuser
  
-      [routers:vars]
-      ansible_user=net_admin
-      ansible_password=P@$$word
+      [routers:vars]  
+      ansible_user=net_admin  
+      ansible_password=P@ssw0rd  
    ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png) 
    ###  Настройка подключения по ключам на BR-SRV
     2) Подключение к хостам осуществляется по протоколу ssh с помощью rsa ключей.  
