@@ -579,6 +579,8 @@
      conf
      no security default
   ## •	Сформируйте файл инвентаря, в инвентарь должны входить HQ-SRV, HQ-CLI, HQ-RTR и BR-RTR  
+   ### Настройка производится на HQ-CLI:
+       dnf install ansible sshpass -y 
    ### Настройка производится на BR-SRV:  
     • Рабочий каталог ansible должен располагаться в /etc/ansible  
       dnf install ansible sshpass -y  
@@ -610,8 +612,7 @@
       ansible_port=22
       ansible_user=net_admin  
       ansible_password=P@ssw0rd
-      
-      
+  
    ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/inventoryini.png)  
   ### •	Все указанные машины должны без предупреждений и ошибок отвечать pong на команду ping в ansible посланную с BR-SRV  
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
