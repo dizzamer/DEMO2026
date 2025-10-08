@@ -352,13 +352,13 @@
       nano /var/named/master/168.192.zone  
       можно сделать через cp /var/named/master/au-team /var/named/master/168.192.zone, чтобы конфиг с нуля не писать  
    ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/168.192zone.png)  
-      chown -R root:named /var/named/master/
-      chown -R named:named /var/named
-      chown -R root:named /etc/named.conf  
-      chmod 750 /var/named/  
-      chmod 750 /var/named/master/  
-      systemctl restart named  
-      Проверить зоны можно командой named-checkconf -z  
+      chown -R root:named /var/named/master/  
+      chown -R named:named /var/named  
+      chown -R root:named /etc/named.conf    
+      chmod 750 /var/named/   
+      chmod 750 /var/named/master/    
+      systemctl restart named   
+      Проверить зоны можно командой named-checkconf -z    
     ![au team irpo зона](https://github.com/dizzamer/DEMO2026-Profile/blob/main/chechkconf.png)  
       Для полной работоспособности на HQ-CLI нужно установить в качестве dns севрера HQ-SRV:  
       nano /etc/resolv.conf на всех устройствах должен иметь следюущий вид:  
