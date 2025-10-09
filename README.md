@@ -112,7 +112,7 @@
     iptables –t nat –A POSTROUTING –s 172.16.2.0/28 –o ens3 –j MASQUERADE  
     iptables-save > /etc/sysconfig/iptables  
     systemctl restart iptables  
-    nano /etc/sysconfig/iptables - не должно быть ничего лишнего.  
+    nano /etc/sysconfig/iptables - не должно быть ничего лишнего - только настройка нашего ната, все остальное удаляем.    
     в случае если там есть то, что вы не добавляли - удалить, затем убрать из буфера старые правила с помощью iptables -F, далее перезагружаем службу iptables  
     iptables –L –t nat - должны высветится в Chain POSTROUTING две настроенные подсети.  
 ## 3. Создайте локальные учетные записи на серверах HQ-SRV и BR-SRV  
