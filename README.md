@@ -344,7 +344,7 @@
       systemctl enable --now named  
       cp /etc/named.conf /etc/named.conf.backup - делаем бэкап файла  
       nano /etc/named.conf  
-   ![named первая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf.png)  
+   ![named первая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf1.png)  
    ![named вторая часть](https://github.com/dizzamer/DEMO2026-Profile/blob/main/namedconf2.png)  
       mkdir /var/named/master  
       nano /var/named/master/au-team  
