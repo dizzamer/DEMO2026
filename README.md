@@ -718,9 +718,8 @@
 ## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
      CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
      GRANT ALL PRIVILEGES ON moodledb.* TO 'moodle'@'localhost';   
-     FLUSH PRIVILEGES;   
+     FLUSH PRIVILEGES;    
      EXIT;   
-     
      Создаем директории для нашего moodle  
      mkdir /opt/moodle  
      mkdir /usr/moodle_data  
