@@ -688,7 +688,7 @@
  setenforce 0    
  Проверяем:  
  getenforce  
- dnf install -y git httpd mariadb-server php php-cli php-common php-fpm php-gd php-intl php-json php-mbstring php-mysqlnd php-opcache php-pdo php-xml php-xmlrpc php-pecl-zip php-soap   
+ dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mbstring php-mysqlnd php-opcache php-pdo php-xml php-xmlrpc php-pecl-zip php-soap  -y  
 ## •	Используйте веб-сервер apache  
     systemctl enable --now httpd  
     Создаем конфигурационный файл /etc/httpd/conf.d/moodle.conf:  
@@ -708,11 +708,11 @@
 ## •	В качестве системы управления базами данных используйте mariadb   
      systemctl enable --now mariadb  
      mysql_secure_installation  
+     Там везде вводим y, задаем пароль для пользователя root - P@ssw0rd  
 ## •	Файлы веб приложения и дамп базы данных находятся в директории web образа Additional.iso  
-     mysql -u root -p   
-     CREATE DATABASE moodledb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;   
+     
 ## •	Выполните импорт схемы и данных из файла dump.sql в базу данных webdb  
-
+     mysql -u root -p mariadb --binary-mode < /mnt/web/web/dump.sql  
 ## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
      CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
      GRANT ALL PRIVILEGES ON moodledb.* TO 'moodle'@'localhost';   
