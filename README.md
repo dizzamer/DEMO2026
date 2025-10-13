@@ -710,7 +710,7 @@
      mysql_secure_installation  
      Там везде вводим y, задаем пароль для пользователя root - P@ssw0rd  
 ## •	Файлы веб приложения и дамп базы данных находятся в директории web образа Additional.iso  
-     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/filewebapp.png.png)  
+     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/filewebapp.png)  
 ## •	Выполните импорт схемы и данных из файла dump.sql в базу данных webdb  
      Так как образ находится в кодировке utf-16, нужно перекодировать в utf-8:  
      iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
