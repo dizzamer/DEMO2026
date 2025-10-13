@@ -710,9 +710,11 @@
      mysql_secure_installation  
      Там везде вводим y, задаем пароль для пользователя root - P@ssw0rd  
 ## •	Файлы веб приложения и дамп базы данных находятся в директории web образа Additional.iso  
-     
+     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/file web app.png.png)  
 ## •	Выполните импорт схемы и данных из файла dump.sql в базу данных webdb  
-     mysql -u root -p mariadb --binary-mode < /mnt/web/web/dump.sql  
+     Так как образ находится в кодировке utf-16, нужно перекодировать в utf-8:  
+     iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
+     mysql -u root -p mariadb < ./dump.sql  
 ## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
      CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
      GRANT ALL PRIVILEGES ON moodledb.* TO 'moodle'@'localhost';   
