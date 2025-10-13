@@ -688,7 +688,7 @@
  setenforce 0    
  Проверяем:  
  getenforce  
- dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mbstring php-mysqlnd php-opcache php-pdo php-xml php-xmlrpc php-pecl-zip php-soap  -y  
+ dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mysqlnd php-pdo php-xml php-xmlrpc php-soap -y    
 ## •	Используйте веб-сервер apache  
     systemctl enable --now httpd  
     Создаем конфигурационный файл /etc/httpd/conf.d/moodle.conf:  
