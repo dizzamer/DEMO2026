@@ -684,24 +684,22 @@
   
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
 ### Подготовка   
- Переводим selinux в состояние Permissive:  
- setenforce 0    
- Проверяем:  
- getenforce  
- dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mysqlnd php-pdo php-xml php-xmlrpc php-soap -y    
+    Переводим selinux в состояние Permissive:  
+    setenforce 0    
+    Проверяем:  
+    getenforce  
+    dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mysqlnd php-pdo php-xml php-xmlrpc php-soap -y    
 ## •	Используйте веб-сервер apache  
-    systemctl enable --now httpd  
-    Создаем конфигурационный файл /etc/httpd/conf.d/moodle.conf:  
-    nano /etc/httpd/conf.d/moodle.conf  
-    <VirtualHost *:80>  
-        DocumentRoot "/var/www/html/moodle"  
-        ServerName HQ-SRV  
-        <Directory "/var/www/html/moodle">  
-            AllowOverride All  
-            Require all granted  
-        </Directory>  
-        ErrorLog "/var/log/httpd/moodle_error.log"  
-        CustomLog "/var/log/httpd/moodle_access.log" combined  
+    systemctl enable --now httpd   
+    Создаем конфигурационный файл:   
+    nano /etc/httpd/conf.d/web.conf   
+    <VirtualHost *:80>   
+        DocumentRoot "/var/www/html"   
+        ServerName hq-srv  
+        <Directory "/var/www/html/">   
+            AllowOverride All   
+            Require all granted   
+        </Directory>   
     </VirtualHost>  
      Перезапускаем Apache:  
      systemctl restart httpd   
@@ -712,26 +710,23 @@
 ## •	Файлы веб приложения и дамп базы данных находятся в директории web образа Additional.iso  
 ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/filewebapp.png)  
 ## •	Выполните импорт схемы и данных из файла dump.sql в базу данных webdb  
-     Так как образ находится в кодировке utf-16, нужно перекодировать в utf-8:  
-     iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
-     mysql -u root -p mariadb < ./dump.sql  
-## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
+     Для начала создадим базу данных:  
+     mariadb -u root -p  
+     CREATE DATABASE webdb;
+     •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
      CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
-     GRANT ALL PRIVILEGES ON webc.* TO 'mysql'@'localhost';   
+     GRANT ALL PRIVILEGES ON webdb.* TO 'webc'@'localhost';   
      FLUSH PRIVILEGES;    
      EXIT;   
-     Создаем директории для нашего moodle  
-     mkdir /opt/moodle  
-     mkdir /usr/moodle_data  
-     Далее переходим в директорию и клонируем  
-     cd /opt/moodle  
-     git clone git://git.moodle.org/moodle.git  
-     cd /opt/moodle/moodle  
-     cp config-dist.php config.php 
+     Так как образ находится в кодировке utf-16, нужно перекодировать в utf-8:  
+     iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
+     mariadb -u root -p webdb < ./dump.sql  
 ## •	Файлы index.php и директорию images скопируйте в каталог веб сервера apache  
+    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/cpvarwww.png) 
 ## •	В файле index.php укажите правильные учётные данные для подключения к БД  
-
+     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/indexphp.png) 
 ## •	Запустите веб сервер и убедитесь в работоспособности приложения  
+     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/.png) 
 ## •	Основные параметры отметьте в отчёте  
 •	На главной странице должен отражаться номер рабочего места в виде арабской цифры, других подписей делать не надо  
 •	Основные параметры отметьте в отчёте  
