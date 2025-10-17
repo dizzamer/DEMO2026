@@ -722,11 +722,11 @@
      iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
      mariadb -u root -p webdb < ./dump.sql  
 ## •	Файлы index.php и директорию images скопируйте в каталог веб сервера apache  
-    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/cpvarwww.png) 
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/cpvarwww.png) 
 ## •	В файле index.php укажите правильные учётные данные для подключения к БД  
-     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/indexphp.png) 
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/indexphp.png) 
 ## •	Запустите веб сервер и убедитесь в работоспособности приложения  
-     ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/.png) 
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/.png) 
 ## •	Основные параметры отметьте в отчёте  
 •	На главной странице должен отражаться номер рабочего места в виде арабской цифры, других подписей делать не надо  
 •	Основные параметры отметьте в отчёте  
