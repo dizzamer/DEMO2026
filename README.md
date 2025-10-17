@@ -717,7 +717,7 @@
      mysql -u root -p mariadb < ./dump.sql  
 ## •	Создайте пользователя webс паролем P@ssw0rd и предоставьте ему права доступа к этой базе данных   
      CREATE USER 'webc'@'localhost' IDENTIFIED BY 'P@ssw0rd';   
-     GRANT ALL PRIVILEGES ON mysql.* TO 'mysql'@'localhost';   
+     GRANT ALL PRIVILEGES ON webc.* TO 'mysql'@'localhost';   
      FLUSH PRIVILEGES;    
      EXIT;   
      Создаем директории для нашего moodle  
