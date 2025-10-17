@@ -619,8 +619,7 @@
     Пингуем удаленные хосты с помощью Ansible находясь в пользователе sshuser:  
     ansible -i /etc/ansible/inventory.ini all -m ping  
     В результате под каждым хостом должно быть написано "ping": "pong".    
-![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansible_ping.png)   
-
+   ![inventory](https://github.com/dizzamer/DEMO2026-Profile/blob/main/ansible_ping.png)   
 ## 6.	Развертывание приложений в Docker на сервере BR-SRV. 
     Установка необходимых пакетов:  
     dnf install docker-ce docker-ce-cli docker-compose -y  
@@ -631,7 +630,7 @@
      • Средствами docker должен создаваться стек контейнеров с веб
      приложением и базой данных
      • Используйте образы site_latest и mariadb_latest располагающиеся в
-     директории docker в образе Additional.iso
+     директории docker в образе Additional.iso  
      • Основной контейнер testapp должен называться tespapp
      • Контейнер с базой данных должен называться db
      • Импортируйте образы в docker, укажите в yaml файле параметры
@@ -656,32 +655,6 @@
   ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki3.png)  
   Далее будет такое у вас как снизу, жмем далее:  
   ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki4.png)  
-  Настройка дальше на скриншоте снизу:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki5.png)  
-  На след скриншоте жмем далее:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki6.png)  
-  Настройка базы данных должна быть выполнена успешно, как на скриншоте ниже:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki77.png)  
-  Далее у вас должен скачаться файл LocalSettings.php автомтаически:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki8.png)  
-  Потом переходим в директории загрузки:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/localsettings.png)  
-  Открывем директорию через терминал:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/localsettingsterm.png)  
-  Перекидываем его через scp следующим образом:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/localsettingsterm2.png)  
-  Переходим на сервер и убеждаем, что файл находится рядом с нашим wiki.yml:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/localsettingsterm3.png)  
-  Далее раскоменчиваем строку в файле wiki.yml:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/localsettingswikiyml.png)   
-  Запускаем стек контейнеров командой docker-compose -f wiki.yml up -d    
-  Далее переходим по доменному имени или адреса нашего сервера и наблюдаем вот это:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/wikidemo.png)  
-  Для проверки того, что все получилось входим под админской учеткой Wiki:WikiP@ssw0rd:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/wikidemologin.png)  
-  Должно получиться вот так:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/wikiuser.png)  
-  
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
 ### Подготовка   
     Переводим selinux в состояние Permissive:  
