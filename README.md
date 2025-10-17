@@ -701,7 +701,7 @@
             Require all granted   
         </Directory>   
     </VirtualHost>  
-   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webconf.png)
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webconf.png)  
      Перезапускаем Apache:  
      systemctl restart httpd   
 ## •	В качестве системы управления базами данных используйте mariadb   
