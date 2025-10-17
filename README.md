@@ -701,9 +701,7 @@
             Require all granted   
         </Directory>   
     </VirtualHost>  
-   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webconf.png)  
-     Перезапускаем Apache:  
-     systemctl restart httpd   
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webconf.png)    
 ## •	В качестве системы управления базами данных используйте mariadb   
      systemctl enable --now mariadb  
      mysql_secure_installation  
@@ -727,6 +725,8 @@
 ## •	В файле index.php укажите правильные учётные данные для подключения к БД  
    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/indexphp.png) 
 ## •	Запустите веб сервер и убедитесь в работоспособности приложения  
+     Перезапускаем веб-сервер:  
+     systemctl restart httpd  
    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webapp.png) 
 ## •	Основные параметры отметьте в отчёте  
 •	На главной странице должен отражаться номер рабочего места в виде арабской цифры, других подписей делать не надо  
