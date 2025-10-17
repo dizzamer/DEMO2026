@@ -726,7 +726,7 @@
 ## •	В файле index.php укажите правильные учётные данные для подключения к БД  
    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/indexphp.png) 
 ## •	Запустите веб сервер и убедитесь в работоспособности приложения  
-   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/.png) 
+   ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webapp.png) 
 ## •	Основные параметры отметьте в отчёте  
 •	На главной странице должен отражаться номер рабочего места в виде арабской цифры, других подписей делать не надо  
 •	Основные параметры отметьте в отчёте  
