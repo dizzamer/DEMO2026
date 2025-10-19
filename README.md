@@ -652,26 +652,11 @@
           image: db:latest
           environment:  
           DB_USER: db
-          
-          
+       Поднимаем стек контейнеров с помощью команды: 
+       docker compose -f wiki.yml up -d  
      • Приложение должно быть доступно для внешних подключений через
      порт 8080
-      Поднимаем стек контейнеров с помощью команды: 
-      docker compose -f wiki.yml up -d  
  ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/wikiyml.png)  
-### Настройка mediawiki после успешного поднятия контейнеров  
-  Переходим по доменному имени или адреса нашего сервера, должны увидеть такую картину:  
- ![wikistart](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mediawiki.png)  
-  Далее настройка выглядит следуюшим образом:  
-  На скриншоте ниже здесь этап проверки всего необходимого для работы MediaWiki, проверка должна пройти успешно  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki2.png)  
-  Далее необходимо указать в хосте базы данных то, как у вас называется контнейнер на сервере, у меня mariadb  
-  Проверить можно зайдя на сервер и выполнить команду docker ps:  
-  ![hostwiki](https://github.com/dizzamer/DEMO2025/blob/main/hostwiki.png)  
-  Указываем, все как по заданию и жмем далее:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki3.png)  
-  Далее будет такое у вас как снизу, жмем далее:  
-  ![wikinext](https://github.com/dizzamer/DEMO2025/blob/main/mediawiki4.png)  
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
 ### Подготовка   
     Переводим selinux в состояние Permissive:  
