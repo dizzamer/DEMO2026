@@ -630,13 +630,30 @@
      • Средствами docker должен создаваться стек контейнеров с веб
      приложением и базой данных
      • Используйте образы site_latest и mariadb_latest располагающиеся в
-     директории docker в образе Additional.iso  
-     • Основной контейнер testapp должен называться tespapp
+     директории docker в образе Additional.iso 
+   ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mntdocker.png) 
+### • Основной контейнер testapp должен называться testapp
      • Контейнер с базой данных должен называться db
-     • Импортируйте образы в docker, укажите в yaml файле параметры
-     подключения к СУБД, имя БД - testdb, пользователь testс паролем
-     P@ssw0rd, порт приложения 8080, при необходимости другие
-     параметры
+     • Импортируйте образы в docker, укажите в yaml файле параметры подключения к СУБД, имя БД - testdb, пользователь testс паролем P@ssw0rd, порт приложения 8080, при необходимости другие параметры
+      docker load < /mnt/docker/docker/mariadb_latest.tar
+      docker load < /mnt/docker/docker/site_latest.tar
+      nano web.yaml
+      services:  
+        web:  
+          container_name: testapp  
+          image: site:latest  
+          restart: always  
+          ports:  
+            - 8080:80
+          depends_on:  
+            - database
+        db:
+          container_name: testdb 
+          image: db:latest
+          environment:  
+          DB_USER: db
+          
+          
      • Приложение должно быть доступно для внешних подключений через
      порт 8080
       Поднимаем стек контейнеров с помощью команды: 
