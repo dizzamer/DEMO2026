@@ -692,8 +692,7 @@
      GRANT ALL PRIVILEGES ON webdb.* TO 'webc'@'localhost';   
      FLUSH PRIVILEGES;    
      EXIT;   
-     Так как образ находится в кодировке utf-16, нужно перекодировать в utf-8:  
-     iconv -f utf-16 -t utf-8 /mnt/web/web/dump.sql -o ./dump.sql  
+     Делаем импорт базы данных:     
      mariadb -u root -p webdb < ./dump.sql  
 ## •	Файлы index.php и директорию images скопируйте в каталог веб сервера apache  
    ![dumpsql](https://github.com/dizzamer/DEMO2026-Profile/blob/main/cpvarwww.png) 
