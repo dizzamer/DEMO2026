@@ -654,8 +654,7 @@
           DB_USER: db
        Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
-     • Приложение должно быть доступно для внешних подключений через
-     порт 8080
+     • Приложение должно быть доступно для внешних подключений через порт 8080
  ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/wikiyml.png)  
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
 ### Подготовка   
@@ -663,6 +662,8 @@
     setenforce 0    
     Проверяем:  
     getenforce  
+    Должно быть состояние: Permissive  
+    Далее устанавливаем необходимые пакеты:  
     dnf install httpd mariadb-server mariadb php php-cli php-common php-fpm php-gd php-intl php-json php-mysqlnd php-pdo php-xml php-xmlrpc php-soap -y    
 ## •	Используйте веб-сервер apache  
     systemctl enable --now httpd   
