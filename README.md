@@ -626,19 +626,18 @@
     systemctl enable docker --now
     Добавляем текущего пользователя в группу докер, текущий пользователь - student   
     usermod -aG docker $USER  
-### •	Создайте в домашней директории пользователя файл wiki.yml для приложения MediaWiki.  
-     • Средствами docker должен создаваться стек контейнеров с веб
-     приложением и базой данных
+###  • Средствами docker должен создаваться стек контейнеров с веб приложением и базой данных
      • Используйте образы site_latest и mariadb_latest располагающиеся в
      директории docker в образе Additional.iso 
    ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/mntdocker.png) 
-### • Основной контейнер testapp должен называться testapp
+     • Основной контейнер testapp должен называться testapp
      • Контейнер с базой данных должен называться db
-     • Импортируйте образы в docker, укажите в yaml файле параметры подключения к СУБД, имя БД - testdb, пользователь testс паролем P@ssw0rd, порт приложения 8080, при необходимости другие параметры
+ ###  • Импортируйте образы в docker, укажите в yaml файле параметры подключения к СУБД, имя БД - testdb, пользователь testс паролем P@ssw0rd, порт приложения 8080, при необходимости другие параметры
       docker load < /mnt/docker/docker/mariadb_latest.tar
       docker load < /mnt/docker/docker/site_latest.tar
       Для написания web.yaml в качестве подсказки можно использовать файл readmetxt, который лежит в месте образов:   
    ![readmetxt](https://github.com/dizzamer/DEMO2026-Profile/blob/main/readmetxt.png)
+   ### Готовим наш yaml файл  
       nano web.yaml
       services:  
         web:  
@@ -654,8 +653,8 @@
           image: db:latest
           environment:  
           DB_USER: db 
-   ![webyaml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webyaml.png)
-       Поднимаем стек контейнеров с помощью команды: 
+  ![webyaml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webyaml.png)
+   ### Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
      • Приложение должно быть доступно для внешних подключений через порт 8080
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
