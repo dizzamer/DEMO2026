@@ -652,6 +652,7 @@
           image: db:latest
           environment:  
           DB_USER: db
+   ![wikiyml](https://github.com/dizzamer/DEMO2025/blob/main/webyaml.png)
        Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
      • Приложение должно быть доступно для внешних подключений через порт 8080
