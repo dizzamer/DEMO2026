@@ -638,7 +638,7 @@
       docker load < /mnt/docker/docker/mariadb_latest.tar
       docker load < /mnt/docker/docker/site_latest.tar
       Для написания web.yaml в качестве подсказки можно использовать файл readmetxt, который лежит в месте образов:   
-   ![readmetxt](https://github.com/dizzamer/DEMO2025/blob/main/readmetxt.png)
+   ![readmetxt](https://github.com/dizzamer/DEMO2026-Profile/blob/main/readmetxt.png)
       nano web.yaml
       services:  
         web:  
@@ -654,7 +654,7 @@
           image: db:latest
           environment:  
           DB_USER: db 
-   ![webyaml](https://github.com/dizzamer/DEMO2025/blob/main/webyaml.png)
+   ![webyaml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/webyaml.png)
        Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
      • Приложение должно быть доступно для внешних подключений через порт 8080
