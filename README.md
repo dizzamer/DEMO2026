@@ -655,7 +655,6 @@
        Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
      • Приложение должно быть доступно для внешних подключений через порт 8080
- ![wikiyml](https://github.com/dizzamer/DEMO2026-Profile/blob/main/wikiyml.png)  
 ## 7.	Разверните веб приложениена сервере HQ-SRV:   
 ### Подготовка   
     Переводим selinux в состояние Permissive:  
