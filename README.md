@@ -720,7 +720,10 @@
       Настройка производится на EcoRouter BR-RTR:  
      ip nat source static tcp 192.168.0.66 2026 172.16.2.14 2026  
 ## 9.	Настройте веб-сервер nginx как обратный прокси-сервер на ISP  
+     dnf install nginx -y  
+     systemctl enable --now nginx  
   ### •	При обращении по доменному имени web.au-team.irpo у клиента должно открываться веб приложение на HQ-SRV 
+      nano /etc/nginx/nginx.conf  
       
   ### • При обращении по доменному имени docker.au-team.irpo клиента должно открываться веб приложение testapp
        
