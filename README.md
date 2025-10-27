@@ -1,4 +1,4 @@
-# Модуль № 1:Настройка сетевой инфраструктуры  
+<img width="1067" height="725" alt="nginx0" src="https://github.com/user-attachments/assets/05564f50-fef9-44a1-b10c-ba61344b2e64" /># Модуль № 1:Настройка сетевой инфраструктуры  
 
 ## 1. Произведите базовую настройку устройств  
  ### ● Настройте имена устройств согласно топологии. Используйте полное доменное имя
@@ -723,11 +723,34 @@
 ## 9.	Настройте веб-сервер nginx как обратный прокси-сервер на ISP  
      dnf install nginx -y  
      systemctl enable --now nginx  
+     Перед настройкой конфига укажем значение server_names_hash_bucket_size 64
+   ![bucket_hash](https://github.com/dizzamer/DEMO2026-Profile/blob/main/nginx0.png)
   ### •	При обращении по доменному имени web.au-team.irpo у клиента должно открываться веб приложение на HQ-SRV 
       nano /etc/nginx/nginx.conf  
-      
+      server {
+        server_name web.au-team.irpo;
+        location / {
+            proxy_pass http://172.16.1.14:8080;
+            proxy_redirect     off;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+}
+![nginx1](https://github.com/dizzamer/DEMO2026-Profile/blob/main/nginx3web.png)
   ### • При обращении по доменному имени docker.au-team.irpo клиента должно открываться веб приложение testapp
-       
+       nano /etc/nginx/nginx.conf
+       server {
+        server_name docker.au-team.irpo;
+        location / {
+            proxy_pass http://172.16.2.14:8080;
+            proxy_redirect     off;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+}
+![nginx2](https://github.com/dizzamer/DEMO2026-Profile/blob/main/nginx2docker.png)
 ## 10.	На маршрутизаторе ISP настройте web-based аутентификацию:  
   ### •	При обращении к сайту web.au-team.irpo клиенту должно быть предложено ввести аутентификационные данные
          В качестве логина для аутентификации выберите WEBс паролем P@ssw0rd
