@@ -637,6 +637,8 @@
      • Импортируйте образы в docker, укажите в yaml файле параметры подключения к СУБД, имя БД - testdb, пользователь testс паролем P@ssw0rd, порт приложения 8080, при необходимости другие параметры
       docker load < /mnt/docker/docker/mariadb_latest.tar
       docker load < /mnt/docker/docker/site_latest.tar
+      Для написания web.yaml в качестве подсказки можно использовать файл readmetxt, который лежит в месте образов:   
+   ![readmetxt](https://github.com/dizzamer/DEMO2025/blob/main/readmetxt.png)
       nano web.yaml
       services:  
         web:  
@@ -651,7 +653,7 @@
           container_name: testdb 
           image: db:latest
           environment:  
-          DB_USER: db
+          DB_USER: db 
    ![webyaml](https://github.com/dizzamer/DEMO2025/blob/main/webyaml.png)
        Поднимаем стек контейнеров с помощью команды: 
        docker compose -f wiki.yml up -d  
